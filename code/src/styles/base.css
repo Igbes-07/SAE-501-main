@@ -1,0 +1,48 @@
+@import url("reset.css") layer(reset);
+
+*,
+*::after,
+*::before {
+    box-sizing: border-box;
+}
+
+:root {
+    interpolate-size: allow-keywords;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+@view-transition {
+    navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    ::before,
+    ::after {
+        animation-delay: -1ms !important;
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        background-attachment: initial !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+        view-transition-name: unset !important;
+    }
+
+    ::view-transition-group(*),
+    ::view-transition-old(*),
+    ::view-transition-new(*) {
+        animation: none !important;
+    }
+}
+
+body {
+    font-family: "Open Sans", sans-serif;
+}
+
+img {
+    max-width: 100%;
+}

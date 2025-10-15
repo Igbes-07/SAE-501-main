@@ -1,0 +1,128 @@
+@import 'tailwindcss';
+
+@config '../../tailwind.config.js';
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
+
+@utility p-safe {
+  /* extra helper classes to account for mobile safe areas */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+@utility px-safe {
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility py-safe {
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pt-safe {
+  padding-top: env(safe-area-inset-top);
+}
+
+@utility pr-safe {
+  padding-right: env(safe-area-inset-right);
+}
+
+@utility pb-safe {
+  padding-bottom: env(safe-area-inset-bottom);
+}
+
+@utility pl-safe {
+  padding-left: env(safe-area-inset-right);
+}
+
+@utility m-safe {
+  margin: env(safe-area-inset-top) env(safe-area-inset-right)
+    env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+@utility mx-safe {
+  margin-left: env(safe-area-inset-left);
+  margin-right: env(safe-area-inset-right);
+}
+
+@utility my-safe {
+  margin-top: env(safe-area-inset-top);
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+@utility mt-safe {
+  margin-top: env(safe-area-inset-top);
+}
+
+@utility mr-safe {
+  margin-right: env(safe-area-inset-right);
+}
+
+@utility mb-safe {
+  margin-bottom: env(safe-area-inset-bottom);
+}
+
+@utility ml-safe {
+  margin-left: env(safe-area-inset-right);
+}
+
+@utility top-safe {
+  top: 0;
+  top: env(safe-area-inset-top);
+}
+
+@utility right-safe {
+  right: 0;
+  right: env(safe-area-inset-right);
+}
+
+@utility bottom-safe {
+  bottom: 0;
+  bottom: env(safe-area-inset-bottom);
+}
+
+@utility left-safe {
+  left: 0;
+  left: env(safe-area-inset-right);
+}
+
+@custom-variant hocus {
+    &:is(:hover, :focus-within) {
+        @slot;
+    }
+}
+
+@custom-variant group-hocus {
+    &:is(:where(.group):hover *, :where(.group):focus-within *) {
+        @slot;
+    }
+}
+
+@custom-variant no-touch {
+    @media (pointer: fine) {
+        @slot;
+    }
+}
+
+@custom-variant touch {
+    @media (pointer: coarse) {
+        @slot;
+    }
+}

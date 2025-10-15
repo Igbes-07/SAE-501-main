@@ -1,0 +1,377 @@
+<svg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink'   width='624' height='750' viewBox='0 0 624 750' >
+  <script type='text/ecmascript'>
+  <![CDATA[
+  function hghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','highlight');  }  }
+  function uhghl(el) { for ( var i in el ){ var elem = document.getElementById(el[i]); if ( elem != null ) elem.setAttribute('class','unhighlight'); }  } 
+  ]]>
+  </script> 
+
+<style type='text/css'>
+  text                { fill:#1c1d1f; font-weight:normal;stroke:#2a2b2c;stroke-width:.1px; font-family: Segoe UI, 'Segoe UI', Dialog; font-size:13.0px; }
+  a text:hover        { font-weight:500; }
+  text.highlight      { font-weight:500; }
+  text.white          { fill:#ffffff; }
+  text.colType        { fill:#b3b3b3; }
+  text.relName        { fill:#9c9a9a; stroke-width:0; }
+  text.legendTitle    { fill:#2b3b64; font-weight:500; }
+  text.legendSubTitle { fill:#616161; font-size:12px; }
+  path, circle        { stroke:#939391; stroke-width:1.65; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+  .filled             { fill:#939391; }
+  path.virtual        { stroke:#6e377e; }
+  path.logo           { fill:#fbeac0;fill-opacity:1;stroke-width:0.3;stroke:#222222; }
+  path.dotted         { stroke-dasharray:3,3; }
+  path.unhighlight    { stroke-width:5; opacity:0; pointer-events:all; }
+  path.highlight      { stroke-width:3; stroke:#a19f9b; opacity:0.8; pointer-events:all; }
+  path.line           { stroke-width:10; stroke-linecap:round; stroke-linejoin:round; }
+  rect.entity         { fill:#ffffff; stroke-width:0; shape-rendering:crispEdges;  filter:url(#shadow); }
+  line.delim          { stroke-width:1px; shape-rendering:crispEdges; }
+  line.topLine        { stroke-width:2.5px; shape-rendering:crispEdges; }
+  text.callout        { fill:#201a10; font-family: Segoe UI, 'Segoe UI', Dialog; font-size:13.0px; }
+  rect.callout        { fill:url(#calloutGradient); stroke-width:1px; stroke:#b0b0b0; }
+  rect.shape          { stroke:#bebdbd; stroke-width:0.5; }
+  text.grp            { fill:#b1b1b1; }
+  rect.grp            { stroke:#919171; stroke-width:3; opacity:0.34; }
+  path.bgPattern      { fill:none;stroke-width:0.6;stroke:#e5e9ee; }
+  path.eval           { fill:#ececec;fill-opacity:1;stroke-width:0.6;stroke:#dddddd; }
+  rect.palpable       { fill:#fffbe5; }
+</style>
+<defs>
+  <pattern id="layoutBgA" width="60" height="34.64" patternUnits="userSpaceOnUse">
+    <rect x="0" y="0"  width="60" height="34.64" fill="#f2f2f4" />
+  </pattern>
+  <pattern id='layoutBgEval'  width='300' height='300' x='0' y='0' patternUnits="userSpaceOnUse">
+    <path class='eval' d='m 62.011835,91.267143 c 3.536475,3.175214 2.262669,8.705999 -1.637711,11.015197 -3.594697,5.8423 -6.34682,-2.892623 -9.715478,-4.653898 -5.609222,-2.838926 2.050802,-6.680123 4.77004,-8.319046 2.334696,-0.724067 4.935143,0.312302 6.583149,1.957747 z m -2.720492,2.538595 c -2.698397,-3.517732 -9.282815,1.269287 -3.69635,3.568637 2.765331,5.605665 7.052809,-0.56184 3.69635,-3.568637 z' />
+    <path class='eval' d='m 72.25864,84.624638 c 4.108046,3.143003 -0.737059,6.895259 -1.994918,8.323564 -3.586718,5.561143 -6.495079,-4.197379 -10.07759,-5.582178 -4.443422,-1.088878 1.349298,-7.249213 2.503526,-2.503449 2.464639,4.517161 2.304019,-3.70697 6.291113,-1.995914 1.280083,0.137865 2.410691,0.864819 3.277869,1.757977 z m -2.646109,2.323242 c -4.797162,-3.078383 -2.810517,6.305507 0.515161,1.990646 0.296432,-0.688582 0.01209,-1.493412 -0.515161,-1.990646 z' />
+    <path class='eval' d='m 78.230641,79.436735 c 4.142121,3.027466 -2.020102,10.435276 -3.450543,5.477315 3.306312,-5.248112 -9.186019,-2.220094 -5.805994,-8.77679 -0.544141,-3.93011 6.797826,-2.102227 3.386015,0.245477 -0.181085,2.915838 4.637371,1.019311 5.870522,3.053982 z' />
+    <path class='eval' d='m 82.744502,72.597397 c -4.901605,1.926521 1.146497,6.285555 2.559694,2.225783 6.21817,3.539297 -6.640186,8.416664 -7.590325,1.997457 -2.24365,-2.914883 4.026676,-10.148618 5.030631,-4.22324 z' />
+    <path class='eval' d='m 90.727458,64.259158 c 1.583987,1.690029 3.321317,3.2696 4.81267,5.026353 -2.535706,6.849794 -6.445583,-5.918773 -8.388458,-0.167017 0.782768,2.03426 5.877405,3.752079 2.670979,5.711199 -3.315119,1.519161 -5.782422,-5.157931 -8.858893,-6.780537 -4.229842,-1.139816 1.510134,-7.074128 2.586227,-2.385939 3.141198,5.495193 1.840537,-5.598295 7.177489,-1.404062 z' />
+    <path class='eval' d='m 99.622027,58.374253 c 1.493293,1.9548 -6.281936,7.024659 -0.885258,4.740447 0.386238,-4.434477 6.131941,-1.133173 2.175851,1.618005 -4.421491,6.12739 -13.666659,-3.151506 -7.058299,-7.136537 1.785129,-1.119329 4.348209,-0.743179 5.767706,0.778085 z m -2.900824,1.89746 c -3.608188,-2.208543 -2.280489,5.00803 -0.12563,0.329531 z' />
+    <path class='eval' d='m 115.18023,50.570441 c -1.61703,5.201678 -4.6204,-0.364502 -7.01598,-1.749619 -4.40977,2.122562 4.89641,4.913939 1.89606,7.018157 -2.48061,3.877635 -4.11404,-4.060614 -7.01192,-2.6391 -1.76318,3.107252 7.28394,6.252304 0.87346,7.876177 -1.74515,-2.956649 -9.055498,-5.610518 -3.950378,-8.66062 1.696478,1.897023 1.770418,-5.43503 5.347308,-3.072411 -0.44014,-5.474701 6.11995,-4.950882 7.7846,-0.815355 0.69076,0.682329 1.39587,1.351469 2.07685,2.042771 z' />
+    <path class='eval' d='m 120.54891,39.417125 c 2.50681,1.334124 4.80466,4.941837 0.75044,5.297362 -0.46414,1.89865 -5.25369,5.602652 -8.01742,1.815475 -3.87345,-2.809139 -0.0676,-7.603869 2.3036,-8.133924 1.6795,-3.853018 3.16703,-1.199465 4.96338,1.021087 z m -2.2464,2.175828 c -4.8049,-2.992167 -3.08987,6.380358 0.42374,2.036159 0.33052,-0.677508 0.12099,-1.525836 -0.42374,-2.036159 z' />
+    <path class='eval' d='m 128.50836,24.06821 c -5.10403,3.035506 3.20535,6.383175 5.05938,9.450276 -0.91853,2.95886 -4.06493,3.650723 -5.34691,0.265618 -2.25715,-2.089033 -4.65672,-6.948595 -7.07024,-2.584686 -4.71758,-3.764394 3.81217,-5.812054 5.12382,-9.226328 0.75738,0.677487 1.38637,1.498638 2.23389,2.095175 z' />
+    <path class='eval' d='m 137.14366,22.299812 c -3.09615,2.259885 0.71537,4.412454 1.99042,6.435866 -3.08975,5.080354 -5.91384,-2.98648 -8.92144,-4.094939 1.44369,-3.219573 3.3497,-1.335928 4.27156,-4.41058 0.97822,-0.894325 1.75044,1.871047 2.65946,2.069653 z' />
+    <path class='eval' d='m 136.85093,14.890174 c 2.31562,5.283511 -7.17975,1.771993 -1.29675,-0.475107 l 0.7108,0.08973 z m 4.867,5.317354 c 2.56912,1.439678 4.26517,4.725219 0.30678,5.233637 -1.56592,-3.098864 -9.51683,-5.749448 -3.64502,-8.633714 1.17746,0.325095 2.15375,2.591149 3.33824,3.400077 z' />
+    <path class='eval' d='m 149.95578,11.976423 c 2.50679,1.334142 4.80455,4.94192 0.75041,5.297394 -0.4641,1.898604 -5.25368,5.602645 -8.0174,1.81545 -3.87347,-2.80918 -0.0676,-7.603844 2.30366,-8.133968 1.67949,-3.8530525 3.16695,-1.1993573 4.96333,1.021124 z m -2.24641,2.175828 c -4.80489,-2.992177 -3.08986,6.380343 0.42374,2.036167 0.33055,-0.677518 0.121,-1.52585 -0.42374,-2.036167 z' />
+    <path class='eval' d='m 153.26135,7.538431 c 2.60497,1.5799548 6.03999,5.944272 1.08117,6.050232 -2.53319,-3.231828 -7.20316,-6.4304525 -8.84748,-9.4582682 1.89121,-2.8664883 3.78452,-2.247699 5.38514,0.8929426 0.78017,0.8503859 1.57195,1.6911437 2.38118,2.5150667 z' />
+  </pattern>
+  <!-- https://norbat.de/svg-pattern-3d-webmuster/ -->
+  <radialGradient id='calloutGradient' cx='25%' cy='20%' r='80%' fx='10%' fy='10%'>
+    <stop offset='0%' stop-color='#fefdf7aa' />
+    <stop offset='100%' stop-color='#fcf9e7aa' />
+  </radialGradient>
+  <filter id="shadow">
+    <feDropShadow dx="0" dy="0" stdDeviation="3" flood-color="#707070" flood-opacity="0.6" />
+  </filter>
+  <!--
+  <filter id='shadow2' width='120%' height='120%'>
+    <feOffset result='offOut' in='SourceGraphic' dx='0' dy='0' />
+    <feColorMatrix result='matrixOut' in='offOut'
+                   values='0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0 0 0 0 0 0.5 0' />
+    <feGaussianBlur result='blurOut' in='matrixOut' stdDeviation='3' />
+    <feBlend in='SourceGraphic' in2='blurOut' />
+  </filter>
+  -->
+  <filter id='fkShadow' height='130%'>
+    <feGaussianBlur in='SourceAlpha' stdDeviation='1.5'/> <!-- stdDeviation is how much to blur -->
+    <feOffset dx='1.2' dy='1.2' result='offsetblur'/> <!-- how much to offset -->
+    <feMerge>
+      <feMergeNode/> <!-- this contains the offset blurred image -->
+      <feMergeNode in='SourceGraphic'/> <!-- this contains the element that the filter is applied to -->
+    </feMerge>
+  </filter>
+  <radialGradient id='legendGradient' cx='5%' cy='5%' r='100%' >
+    <stop offset='0%' stop-color='#fdfeff' stop-opacity='1'/>
+    <stop offset='100%' stop-color='#e1eafa' stop-opacity='1' />
+  </radialGradient>
+  <symbol id='calloutArrowDown' >
+    <path d='M 0,0 L 8,12 L 16,0 z' style='fill:#f8f6d1;stroke:none; filter: url(#shadow);' />
+    <path d='M 0,0 L 8,12 L 16,0' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='calloutArrowUp' >
+    <path d='M 0,16 L 8,4 L 16,16 z' style='fill:#ffffff; stroke:none; filter: url(#shadow);' />
+    <path d='M 0,16 L 8,4 L 16,16' style='stroke:#bebdbd; stroke-width:0.5;' />
+  </symbol>
+  <symbol id='pk' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <path style='fill:#f0d938;stroke:#906b25;stroke-width:0.6;stroke-linecap:round;stroke-linejoin:round;'
+            d='M 9.3678877,3.5695485 C 9.1030218,3.2729386 9.0796382,2.7628519 9.3396185,2.4517097 9.5449651,2.1956495 9.9040386,2.0980533 10.199638,2.2169415 10.533525,2.3415459 10.775153,2.706942 10.750675,3.0842709 10.737029,3.3980003 10.541153,3.699122 10.258248,3.8066067 9.966649,3.9250429 9.6169668,3.8418805 9.4008073,3.6062324 9.3894892,3.5943518 9.3785264,3.582104 9.3678886,3.5695487 z M 11.226617,6.9916004 C 11.888137,6.3548946 12.293488,5.4172188 12.311087,4.442353 12.378144,2.7379364 11.248678,1.0541269 9.7322318,0.44767357 8.3887112,-0.1280313 6.7865012,0.26822889 5.8918395,1.4007929 5.080823,2.3839145 4.9336815,3.8452096 5.3635544,5.101615 L 4.3670905,5.315913 C 4.0664984,5.3682645 4.0967703,5.6316724 4.2574957,5.8208829 L 4.9124,6.5655244 4.1543436,7.2512357 3.2136002,7.2163506 3.1674775,8.5586827 2.0406832,8.5086512 1.5965306,8.9299953 1.5471661,10.179833 0.75616674,10.195223 0.2112857,10.758575 0.15354288,11.735988 0.07199052,12.765553 c 0.36440953,0.238225 0.79006967,0.195492 1.44938278,-0.02675 L 6.3033562,8.1282037 6.8217102,8.6765688 C 6.9985465,8.8799427 7.3003699,8.7497574 7.358381,8.5016252 L 7.4938877,7.5084164 c 0.8537488,0.3985387 1.8303125,0.4711541 2.6851793,0.1427713 0.393927,-0.1407258 0.746858,-0.3701772 1.04755,-0.6595873 z'/>
+      <path d='M 6.8014948,6.3102123 0.15369063,13.024481 0.21560535,12.141962 6.0062342,6.2683782 z'
+            style='fill:#ffe5a5;fill-opacity:1;stroke:#906b25;stroke-width:0.06912433;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:3.00300009'/>
+    </g>
+  </symbol>
+  <symbol id='idx1' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect width='4' height='4' x='7' y='1' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.83'/>
+      <rect width='4' height='4' x='1' y='7' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.832'/>
+      <rect width='4' height='4' x='7' y='7' style='fill:#ffff3f;stroke:#b48333;stroke-width:0.6;' ry='0.832'/>
+    </g>
+  </symbol>
+  <symbol id='idx2' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect width='4' height='3' x='6' y='1' style='fill:#7fc8e9;stroke:#2f6f8c;stroke-width:0.6;' ry='0.83'/>
+      <rect width='7' height='3' x='3' y='6' style='fill:#7fc8e9;stroke:#2f6f8c;stroke-width:0.6;' ry='0.832'/>
+    </g>
+  </symbol>
+  <symbol id='unq' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect style='fill:none;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+            width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+            transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+      <text x='5.4' y='7.2' style='font-size:7px;fill:#655c59;'>U</text>
+    </g>
+  </symbol>
+  <symbol id='idx' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <rect style='fill:none;stroke:#7e4d31;stroke-width:0.71934468;stroke-linecap:round;stroke-linejoin:round;'
+            width='2.29' height='8.43' x='7.48' y='-0.76' ry='1.14' transform='matrix(0.701,0.713,-0.727,0.685,0,0)' />
+      <path style='fill:white;stroke:#858585;stroke-width:1.2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='m 26.04,8.64 a 4.13,4.13 0 1 1 -8.26,0 4.13,4.13 0 1 1 8.26,0 z'
+            transform='matrix(1.025,0,0,0.987,-14.690,-3.862)' />
+    </g>
+  </symbol>
+  <symbol id='fk' width="13" height="13">
+    <g transform='scale(0.87)'>
+      <path style='fill:#6a88cd;stroke:#5a72a8;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 12.48,0.33 7.07,0.89 9.067,2.974 0.329,11.731 1.073,12.597 9.811,3.841 11.77,5.78 z' />
+    </g>
+  </symbol>
+  <symbol id='ref' width="13" height="13">
+    <g transform='scale(0.87)'>
+      <path style='fill:#f0d938;stroke:#906b25;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 0.10,12.70 5.31,12.15 3.40,10.06 11.82,1.32 11.11,0.45 2.68,9.19 0.80,7.24 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag0' width="13" height="13">
+    <g transform='scale(0.92)'>
+      <path style='fill:#b7d0f6;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag1' width="13" height="13">
+    <g transform='scale(0.92)'>
+      <path style='fill:#f4a393;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='flag2' width="13" height="13">
+    <g transform='scale(0.92)'>
+      <path style='fill:#77ec8b;stroke:#000000;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+            d='M 0.12,12.67 0.16,7.22 C 2.59,7.22 4.13,8.78 9.22,4.22 5.68,4.98 2.53,4.50 0.09,1.80 z'/>
+    </g>
+  </symbol>
+  <symbol id='nn' width="3" height="3">
+    <path style='stroke:#9b3e50;stroke-width:0.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 0,0 3,3 M 0,3 3,0 z'/>
+  </symbol>
+  <symbol id='virtual' width="13" height="13">
+    <circle cx='6' cy='6.5' r='5.5' fill='#a3dda3' stroke='#4c6a4c' stroke-width='0.5'/>
+    <path style='stroke:#ffffff;stroke-width:1.5;stroke-linecap:butt;stroke-linejoin:round;stroke-miterlimit:4;'
+          d='M 3,4 6,10 9,4'/>
+  </symbol>
+  <symbol id='view' width="13" height="13">
+    <g transform='scale(0.99)'>
+      <line x1='12' y1='6' x2='19' y2='0' stroke='black' stroke-width='0.5' />
+      <line x1='0' y1='6' x2='7' y2='0' stroke='black' stroke-width='0.5' />
+      <circle cx='3' cy='6' r='3' fill='#f9ebbc' stroke='black' stroke-width='0.5'/>
+      <circle cx='10' cy='6' r='3' fill='#f9ebbc' stroke='black' stroke-width='0.5'/>
+    </g>
+  </symbol>
+  <symbol id='logo' width="100" height="100">
+    <path style='stroke:none;fill:#5d5d5d' d='M2.41,6.80 17.39,0.35 26.83,7.21 28.32,24.45 12.62,29.77 1.74,23.96'/>
+    <path style='stroke:none;fill:#efefef' d='M 2.21, 6.45  9.36, 3.49  9.42,11.63  2.04,14.42'/>
+    <path style='stroke:none;fill:#efefef' d='M10.23, 3.14 17.39, 0.17 17.68, 8.59 10.29,11.28'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M17.44, 0.17 21.59, 3.55 22.36,11.43 17.76,8.63'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M22.67, 4.33 26.98, 7.06 27.65,14.77 23.20,11.77'/>
+    <path style='stroke:none;fill:#efefef' d='M1.89,15.58  9.39,12.65  9.48,21.14  1.57,24.10'/>
+    <path style='stroke:none;fill:#17afde' d='M10.38,12.36 17.70, 9.51 18.11,18.37 10.32 20.96'/>
+    <path style='stroke:none;fill:#1389ad' d='M17.73, 9.59 22.41,12.47 22.82,21.14 18.05,18.34'/>
+    <path style='stroke:none;fill:#d2d2d2' d='M23.26,12.94 27.62,15.70 28.42,24.54 23.69,21.60'/>
+    <path style='stroke:none;fill:#828282' d='M1.57,24.19  9.45,21.22 14.30,24.40  6.80,26.80'/>
+    <path style='stroke:none;fill:#0c485c' d='M10.47,20.90 18.11,18.32 22.82,21.19 15.20,23.81'/>
+    <path style='stroke:none;fill:#828282' d='M23.69,21.63 28.32,24.65 20.87,27.07 15.84,24.30'/>
+    <path style='stroke:none;fill:#828282' d='M14.94,24.68 19.80,27.41 12.59,29.97  7.73,27.21'/>
+  </symbol>
+
+</defs>
+
+<defs>  <marker id='ZeroMore' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 2.00,4.00 L 4.00,4.00 M 6.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+    <path d='M 8.00,0.00 L 4.00,4.00 L 8.00,8.00' style='stroke-width:1;'/>
+    <path d='M 0.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='ZeroOne' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 2.00,4.00 L 4.00,4.00 M 6.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='OneMore' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 4.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+    <path d='M 8.00,0.00 L 4.00,4.00 L 8.00,8.00' style='stroke-width:1;'/>
+    <path d='M 0.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='One' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 4.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='Range' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 4.00,4.00 L 8.00,4.00 z' style='stroke-width:1;'/>
+  </marker>
+  <marker id='Arrow' viewBox='0 0 8.00 8.00' refX='4.00' refY='4.00' markerWidth='8.00' markerHeight='8.00' orient='auto-start-reverse'>
+    <path d='M 4.000,4.000 L 8.000,4.000 L 4.000,0.000 L 8.000,4.000 L 4.000,8.000' style='stroke-width:1;'/>
+  </marker>
+  <linearGradient id='tbg_3986C1' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#FEFEFF' /> 
+     <stop offset='75%' stop-color='#DFEFFD' /> 
+     <stop offset='100%' stop-color='#BAE0FE' /> 
+  </linearGradient>
+  <linearGradient id='tbg_BED3F4' x1='0%' y1='0%' x2='0%' y2='100%' >
+     <stop offset='0%' stop-color='#FEFEFF' /> 
+     <stop offset='75%' stop-color='#DFEAFD' /> 
+     <stop offset='100%' stop-color='#BAD4FE' /> 
+  </linearGradient>
+</defs>
+
+<!-- == Shape Colors == -->
+<!-- == Desktop == -->
+<rect x='1' y='1' width='622' height='748' rx='8' ry='8' style='fill:url(#layoutBgA); stroke:#ccc; stroke-width:.7px; cursor:move;' />
+
+<!-- == Legend == -->
+<g transform='translate(10,10)'>
+  <rect x='10' y='10' width='310' height='70' rx='6' ry='6' style='fill:url(#legendGradient);filter:url(#shadow);'/> 
+  <use id='logo' x='20' y='40' xlink:href='#logo'><title>DbSchema Database Designer </title></use>  <text x='20' y='30' class='legendTitle' >SAE501</text> 
+  <text x='57' y='47' class='legendSubTitle'><tspan>Comments as mouse-over tips, zoom and pan.<title>Read column and table comments by hovering the columns and tables.
+Zoom with CTRL+whell mouse button, pan by dragging the diagram with the right-mouse button</title></tspan></text> 
+  <a xlink:href='https%3A%2F%2Fdbschema.com'><text x='57' y='61' class='legendSubTitle'><tspan>by DbSchema.com - Wise Coders<title>DbSchema is an universal database designer.
+DbSchema has a free Community Edition.</title></tspan></text></a> 
+</g>
+
+<g transform='translate(0,110)'>
+<!-- == Group 'articles' == -->
+<rect class='grp' style='fill:#ECF2FD;stroke:#717D91' x='32' y='93' width='192' height='306' />
+<text x='44' y='109' style='fill:#6680AC;'>articles</text>
+<!-- == Fk 'authors_fk_authors_authors' == -->
+<path id='authors_fk_authors_authors'  onmouseover="hghl(['authors_fk_authors_authors','sae501.authors._id','sae501.articles.author'])" onmouseout="uhghl(['authors_fk_authors_authors','sae501.authors._id','sae501.articles.author'])" transform='translate(8,0)' class='unhighlight' d='M 368,160L 208,160' >
+	<title>&#x1F517;  Foreign Key fk_authors_authors
+authors ref articles ( _id -&gt; author )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroOne)' marker-end='url(#One)'  class='virtual'  d='M 368,160L 208,160' ><title>&#x1F517;  Foreign Key fk_authors_authors
+authors ref articles ( _id -&gt; author )</title></path>
+<text x='361' y='155' transform='rotate(0 361,155)' class='relName'>&#95;id</text>
+<!-- == Fk 'articles_fk_articles_authors' == -->
+<path id='articles_fk_articles_authors'  onmouseover="hghl(['articles_fk_articles_authors','sae501.articles.author','sae501.authors._id'])" onmouseout="uhghl(['articles_fk_articles_authors','sae501.articles.author','sae501.authors._id'])" transform='translate(8,0)' class='unhighlight' d='M 208,144L 368,144' >
+	<title>&#x1F517;  Foreign Key fk_articles_authors
+articles ref authors ( author -&gt; _id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#One)'  class='virtual'  d='M 208,144L 368,144' ><title>&#x1F517;  Foreign Key fk_articles_authors
+articles ref authors ( author -&gt; _id )</title></path>
+<text x='217' y='139' transform='rotate(0 217,139)' class='relName'>author</text>
+<!-- == Fk 'articles_fk_articles_commentarticles' == -->
+<path id='articles_fk_articles_commentarticles'  onmouseover="hghl(['articles_fk_articles_commentarticles','sae501.articles.list_comments','sae501.commentarticles._id'])" onmouseout="uhghl(['articles_fk_articles_commentarticles','sae501.articles.list_comments','sae501.commentarticles._id'])" transform='translate(8,0)' class='unhighlight' d='M 208,368L 384,368' >
+	<title>&#x1F517;  Foreign Key fk_articles_commentarticles
+articles ref commentarticles ( list_comments -&gt; _id )</title>
+</path>
+<path transform='translate(8,0)' marker-start='url(#ZeroMore)' marker-end='url(#One)'  class='virtual'  d='M 208,368L 384,368' ><title>&#x1F517;  Foreign Key fk_articles_commentarticles
+articles ref commentarticles ( list_comments -&gt; _id )</title></path>
+<text x='217' y='363' transform='rotate(0 217,363)' class='relName'>list&#95;comments</text>
+<!-- == Table 'authors' == -->
+<rect id='depict_sae501&#46;authors' class='entity' style='stroke:#769BB9' x='384' y='72' width='192' height='192' />
+<rect x='384' y='72' width='192' height='28' style='stroke-width:0; fill:#F1F6FA'/>
+<line class='topLine' style='stroke:#176098;' stroke-linecap='round' x1='384' y1='72' x2='576' y2='72'/>
+<a xlink:href='#sae501.authors'><text x='455' y='91' >authors</text><title>Collection sae501.authors</title></a>
+  <use id='nn' x='386' y='109' xlink:href='#nn'/><use id='pk' x='386' y='108' xlink:href='#pk'><title>&#x1F511;  Pk _id_ ( _id ) </title></use><a xlink:href='#sae501.authors__id'><text id='sae501&#46;authors&#46;&#95;id' x='403' y='119' onmouseover="hghl(['authors_fk_authors_authors','sae501.articles.author','articles_fk_articles_authors','sae501.articles.author'])" onmouseout="uhghl(['authors_fk_authors_authors','sae501.articles.author','articles_fk_articles_authors','sae501.articles.author'])">&#95;id</text><title>&#10697;  _id
+     * objectid
+ &#8599; authors( author )
+ &#8601; articles( _id )</title></a>
+<text x='560' y='120' text-anchor='end' style='fill:#86A0B5;stroke:0;'>objectId</text><a xlink:href='#sae501.authors._id'><use id='fk' x='564' y='108' xlink:href='#fk'/><title>&#x1F517;  References articles ( _id -&gt; author ) 
+Referred by articles ( author -&gt; _id ) </title></a>
+  <use id='nn' x='386' y='125' xlink:href='#nn'/><a xlink:href='#sae501.authors_lastname'><text id='sae501&#46;authors&#46;lastname' x='403' y='135'>lastname</text><title>&#10697;  lastname
+     * string</title></a>
+<text x='560' y='136' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='141' xlink:href='#nn'/><a xlink:href='#sae501.authors_firstname'><text id='sae501&#46;authors&#46;firstname' x='403' y='151'>firstname</text><title>&#10697;  firstname
+     * string</title></a>
+<text x='560' y='152' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='157' xlink:href='#nn'/><a xlink:href='#sae501.authors_email'><text id='sae501&#46;authors&#46;email' x='403' y='167'>email</text><title>&#10697;  email
+     * string</title></a>
+<text x='560' y='168' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='173' xlink:href='#nn'/><a xlink:href='#sae501.authors_image'><text id='sae501&#46;authors&#46;image' x='403' y='183'>image</text><title>&#10697;  image
+     * string</title></a>
+<text x='560' y='184' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='189' xlink:href='#nn'/><a xlink:href='#sae501.authors_bio'><text id='sae501&#46;authors&#46;bio' x='403' y='199'>bio</text><title>&#10697;  bio
+     * string</title></a>
+<text x='560' y='200' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='205' xlink:href='#nn'/><a xlink:href='#sae501.authors_color'><text id='sae501&#46;authors&#46;color' x='403' y='215'>color</text><title>&#10697;  color
+     * string</title></a>
+<text x='560' y='216' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='386' y='221' xlink:href='#nn'/><a xlink:href='#sae501.authors_list_articles'><text id='sae501&#46;authors&#46;list&#95;articles' x='403' y='231'>list&#95;articles</text><title>&#10697;  list_articles
+     * array[objectid]</title></a>
+<text x='560' y='232' text-anchor='end' style='fill:#86A0B5;stroke:0;'>array&#91;objectid&#93;</text>  <use id='nn' x='386' y='237' xlink:href='#nn'/><a xlink:href='#sae501.authors___v'><text id='sae501&#46;authors&#46;&#95;&#95;v' x='403' y='247'>&#95;&#95;v</text><title>&#10697;  __v
+     * int</title></a>
+<text x='560' y='248' text-anchor='end' style='fill:#86A0B5;stroke:0;'>int</text>
+<!-- == Table 'commentarticles' == -->
+<rect id='depict_sae501&#46;commentarticles' class='entity' style='stroke:#769BB9' x='400' y='360' width='128' height='144' />
+<rect x='400' y='360' width='128' height='28' style='stroke-width:0; fill:#F1F6FA'/>
+<line class='topLine' style='stroke:#176098;' stroke-linecap='round' x1='400' y1='360' x2='528' y2='360'/>
+<a xlink:href='#sae501.commentarticles'><text x='413' y='379' >commentarticles</text><title>Collection sae501.commentarticles</title></a>
+  <use id='nn' x='402' y='397' xlink:href='#nn'/><use id='pk' x='402' y='396' xlink:href='#pk'><title>&#x1F511;  Pk _id_ ( _id ) </title></use><a xlink:href='#sae501.commentarticles__id'><text id='sae501&#46;commentarticles&#46;&#95;id' x='419' y='407' onmouseover="hghl(['articles_fk_articles_commentarticles','sae501.articles.list_comments'])" onmouseout="uhghl(['articles_fk_articles_commentarticles','sae501.articles.list_comments'])">&#95;id</text><title>&#10697;  _id
+     * objectid
+ &#8601; articles( _id )</title></a>
+<text x='512' y='408' text-anchor='end' style='fill:#86A0B5;stroke:0;'>objectId</text><a xlink:href='#sae501.commentarticles._id'><use id='ref' x='516' y='396' xlink:href='#ref'/><title>&#x1F517;  Referred by articles ( list_comments -&gt; _id ) </title></a>
+  <a xlink:href='#sae501.commentarticles_content'><text id='sae501&#46;commentarticles&#46;content' x='419' y='423'>content</text><title>&#10697;  content
+     string</title></a>
+<text x='512' y='424' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='402' y='429' xlink:href='#nn'/><a xlink:href='#sae501.commentarticles_article'><text id='sae501&#46;commentarticles&#46;article' x='419' y='439'>article</text><title>&#10697;  article
+     * objectid</title></a>
+<text x='512' y='440' text-anchor='end' style='fill:#86A0B5;stroke:0;'>objectId</text>  <use id='nn' x='402' y='445' xlink:href='#nn'/><a xlink:href='#sae501.commentarticles_created_at'><text id='sae501&#46;commentarticles&#46;created&#95;at' x='419' y='455'>created&#95;at</text><title>&#10697;  created_at
+     * date</title></a>
+<text x='512' y='456' text-anchor='end' style='fill:#86A0B5;stroke:0;'>date</text>  <use id='nn' x='402' y='461' xlink:href='#nn'/><a xlink:href='#sae501.commentarticles_updatedAt'><text id='sae501&#46;commentarticles&#46;updatedAt' x='419' y='471'>updatedAt</text><title>&#10697;  updatedAt
+     * date</title></a>
+<text x='512' y='472' text-anchor='end' style='fill:#86A0B5;stroke:0;'>date</text>  <use id='nn' x='402' y='477' xlink:href='#nn'/><a xlink:href='#sae501.commentarticles___v'><text id='sae501&#46;commentarticles&#46;&#95;&#95;v' x='419' y='487'>&#95;&#95;v</text><title>&#10697;  __v
+     * int</title></a>
+<text x='512' y='488' text-anchor='end' style='fill:#86A0B5;stroke:0;'>int</text>
+<!-- == Table 'saes' == -->
+<rect id='depict_sae501&#46;saes' class='entity' style='stroke:#769BB9' x='80' y='424' width='112' height='128' />
+<rect x='80' y='424' width='112' height='28' style='stroke-width:0; fill:#F1F6FA'/>
+<line class='topLine' style='stroke:#176098;' stroke-linecap='round' x1='80' y1='424' x2='192' y2='424'/>
+<a xlink:href='#sae501.saes'><text x='120' y='443' >saes</text><title>Collection sae501.saes</title></a>
+  <use id='nn' x='82' y='461' xlink:href='#nn'/><use id='pk' x='82' y='460' xlink:href='#pk'><title>&#x1F511;  Pk _id_ ( _id ) </title></use><a xlink:href='#sae501.saes__id'><text id='sae501&#46;saes&#46;&#95;id' x='99' y='471'>&#95;id</text><title>&#10697;  _id
+     * objectid</title></a>
+<text x='176' y='472' text-anchor='end' style='fill:#86A0B5;stroke:0;'>objectId</text>  <use id='nn' x='82' y='477' xlink:href='#nn'/><a xlink:href='#sae501.saes_title'><text id='sae501&#46;saes&#46;title' x='99' y='487'>title</text><title>&#10697;  title
+     * string</title></a>
+<text x='176' y='488' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='82' y='493' xlink:href='#nn'/><a xlink:href='#sae501.saes_content'><text id='sae501&#46;saes&#46;content' x='99' y='503'>content</text><title>&#10697;  content
+     * string</title></a>
+<text x='176' y='504' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>  <use id='nn' x='82' y='509' xlink:href='#nn'/><a xlink:href='#sae501.saes___v'><text id='sae501&#46;saes&#46;&#95;&#95;v' x='99' y='519'>&#95;&#95;v</text><title>&#10697;  __v
+     * int</title></a>
+<text x='176' y='520' text-anchor='end' style='fill:#86A0B5;stroke:0;'>int</text>  <use id='nn' x='82' y='525' xlink:href='#nn'/><a xlink:href='#sae501.saes_image'><text id='sae501&#46;saes&#46;image' x='99' y='535'>image</text><title>&#10697;  image
+     * string</title></a>
+<text x='176' y='536' text-anchor='end' style='fill:#86A0B5;stroke:0;'>string</text>
+<!-- == Table 'articles' == -->
+<rect id='depict_sae501&#46;articles' class='entity' style='stroke:#768FB9' x='48' y='120' width='160' height='256' />
+<rect x='48' y='120' width='160' height='28' style='stroke-width:0; fill:#F1F4FA'/>
+<line class='topLine' style='stroke:#174898;' stroke-linecap='round' x1='48' y1='120' x2='208' y2='120'/>
+<a xlink:href='#sae501.articles'><text x='104' y='139' >articles</text><title>Collection sae501.articles</title></a>
+  <use id='nn' x='50' y='157' xlink:href='#nn'/><use id='pk' x='50' y='156' xlink:href='#pk'><title>&#x1F511;  Pk _id_ ( _id ) </title></use><a xlink:href='#sae501.articles__id'><text id='sae501&#46;articles&#46;&#95;id' x='67' y='167'>&#95;id</text><title>&#10697;  _id
+     * objectid</title></a>
+<text x='192' y='168' text-anchor='end' style='fill:#8698B5;stroke:0;'>objectId</text>  <use id='nn' x='50' y='173' xlink:href='#nn'/><a xlink:href='#sae501.articles_title'><text id='sae501&#46;articles&#46;title' x='67' y='183'>title</text><title>&#10697;  title
+     * string</title></a>
+<text x='192' y='184' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <use id='nn' x='50' y='189' xlink:href='#nn'/><a xlink:href='#sae501.articles_abstract'><text id='sae501&#46;articles&#46;abstract' x='67' y='199'>abstract</text><title>&#10697;  abstract
+     * string</title></a>
+<text x='192' y='200' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <use id='nn' x='50' y='205' xlink:href='#nn'/><a xlink:href='#sae501.articles_content'><text id='sae501&#46;articles&#46;content' x='67' y='215'>content</text><title>&#10697;  content
+     * string</title></a>
+<text x='192' y='216' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <use id='nn' x='50' y='221' xlink:href='#nn'/><a xlink:href='#sae501.articles_image'><text id='sae501&#46;articles&#46;image' x='67' y='231'>image</text><title>&#10697;  image
+     * string</title></a>
+<text x='192' y='232' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <a xlink:href='#sae501.articles_yt_video_id'><text id='sae501&#46;articles&#46;yt&#95;video&#95;id' x='67' y='247'>yt&#95;video&#95;id</text><title>&#10697;  yt_video_id
+     string</title></a>
+<text x='192' y='248' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <use id='nn' x='50' y='253' xlink:href='#nn'/><a xlink:href='#sae501.articles_is_active'><text id='sae501&#46;articles&#46;is&#95;active' x='67' y='263'>is&#95;active</text><title>&#10697;  is_active
+     * boolean</title></a>
+<text x='192' y='264' text-anchor='end' style='fill:#8698B5;stroke:0;'>Boolean</text>  <use id='nn' x='50' y='269' xlink:href='#nn'/><a xlink:href='#sae501.articles_list_comments'><text id='sae501&#46;articles&#46;list&#95;comments' x='67' y='279' onmouseover="hghl(['articles_fk_articles_commentarticles','sae501.commentarticles._id'])" onmouseout="uhghl(['articles_fk_articles_commentarticles','sae501.commentarticles._id'])">list&#95;comments</text><title>&#10697;  list_comments
+     * array
+ &#8599; articles( _id )</title></a>
+<text x='192' y='280' text-anchor='end' style='fill:#8698B5;stroke:0;'>array</text><a xlink:href='#sae501.articles.list_comments'><use id='fk' x='196' y='268' xlink:href='#fk'/><title>&#x1F517;  References commentarticles ( list_comments -&gt; _id ) </title></a>
+  <use id='nn' x='50' y='285' xlink:href='#nn'/><a xlink:href='#sae501.articles_author'><text id='sae501&#46;articles&#46;author' x='67' y='295' onmouseover="hghl(['articles_fk_articles_authors','sae501.authors._id','authors_fk_authors_authors','sae501.authors._id'])" onmouseout="uhghl(['articles_fk_articles_authors','sae501.authors._id','authors_fk_authors_authors','sae501.authors._id'])">author</text><title>&#10697;  author
+     * objectid
+ &#8599; articles( _id )
+ &#8601; authors( author )</title></a>
+<text x='192' y='296' text-anchor='end' style='fill:#8698B5;stroke:0;'>objectId</text><a xlink:href='#sae501.articles.author'><use id='fk' x='196' y='284' xlink:href='#fk'/><title>&#x1F517;  References authors ( author -&gt; _id ) 
+Referred by authors ( _id -&gt; author ) </title></a>
+  <use id='nn' x='50' y='301' xlink:href='#nn'/><a xlink:href='#sae501.articles_created_at'><text id='sae501&#46;articles&#46;created&#95;at' x='67' y='311'>created&#95;at</text><title>&#10697;  created_at
+     * date</title></a>
+<text x='192' y='312' text-anchor='end' style='fill:#8698B5;stroke:0;'>date</text>  <use id='nn' x='50' y='317' xlink:href='#nn'/><a xlink:href='#sae501.articles_updated_at'><text id='sae501&#46;articles&#46;updated&#95;at' x='67' y='327'>updated&#95;at</text><title>&#10697;  updated_at
+     * date</title></a>
+<text x='192' y='328' text-anchor='end' style='fill:#8698B5;stroke:0;'>date</text>  <use id='nn' x='50' y='333' xlink:href='#nn'/><use id='unq' x='50' y='332' xlink:href='#unq'><title>&#x1F50D;  Unq slug_1 ( slug ) </title></use><a xlink:href='#sae501.articles_slug'><text id='sae501&#46;articles&#46;slug' x='67' y='343'>slug</text><title>&#10697;  slug
+     * string</title></a>
+<text x='192' y='344' text-anchor='end' style='fill:#8698B5;stroke:0;'>string</text>  <use id='nn' x='50' y='349' xlink:href='#nn'/><a xlink:href='#sae501.articles___v'><text id='sae501&#46;articles&#46;&#95;&#95;v' x='67' y='359'>&#95;&#95;v</text><title>&#10697;  __v
+     * int</title></a>
+<text x='192' y='360' text-anchor='end' style='fill:#8698B5;stroke:0;'>int</text>
+</g></svg>

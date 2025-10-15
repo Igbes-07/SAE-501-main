@@ -1,0 +1,300 @@
+@import "tailwindcss";
+
+@view-transition {
+    navigation: auto;
+}
+
+body:has(dialog:modal) {
+    overflow: hidden;
+}
+
+@container main (width <= theme(--container-3xl)) {
+    table {
+        border: 0;
+
+        thead {
+            border: none;
+            clip: rect(0 0 0 0);
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+        }
+
+        tr {
+            border-bottom: 1px solid var(--color-slate-200);
+            display: block;
+
+            &:last-child {
+                border-bottom-color: transparent;
+            }
+        }
+
+        td {
+            display: block;
+            text-align: left;
+
+            &::before {
+                content: attr(data-label);
+                font-weight: bold;
+                display: block;
+            }
+        }
+    }
+}
+
+::backdrop {
+    backdrop-filter: blur(var(--blur-xs));
+    background-color: --alpha(var(--color-gray-500) / 35%);
+    pointer-events: fill;
+}
+
+/* Source : https://dev.to/chokcoco/fantastic-css-border-animation-5166 */
+.animated-border {
+    --distance: 15px;
+    --animation-speed: 2.25s;
+    position: relative;
+
+    &::before,
+    &::after {
+        content: "";
+        position: absolute;
+        border: 2px dashed #fff;
+        background: linear-gradient(#fff 0 0) padding-box,
+            linear-gradient(
+                to bottom,
+                var(--color-sky-700),
+                var(--color-blue-700)
+            );
+        animation: clippath var(--animation-speed) infinite ease-in;
+        border-radius: var(--radius-lg);
+        inset: 0;
+        z-index: 0;
+    }
+
+    &::after {
+        animation: clippath var(--animation-speed) infinite
+            calc(var(--animation-speed) * -0.5) linear;
+    }
+
+    &.paused {
+        &::before,
+        &::after {
+            animation-name: none;
+        }
+    }
+}
+
+:root {
+    --percentage: 98%;
+    scrollbar-gutter: stable;
+}
+
+@keyframes clippath {
+    0%,
+    100% {
+        clip-path: inset(0 0 var(--percentage) 0);
+    }
+    25% {
+        clip-path: inset(0 var(--percentage) 0 0);
+    }
+    50% {
+        clip-path: inset(var(--percentage) 0 0 0);
+    }
+    75% {
+        clip-path: inset(0 0 0 var(--percentage));
+    }
+}
+
+dialog {
+    --animation-speed: 0.15s;
+    --start-position-y: 50vh;
+    opacity: 0;
+    translate: 0 var(--start-position-y);
+    transition: opacity var(--animation-speed) ease-out,
+        translate var(--animation-speed) ease-out,
+        overlay var(--animation-speed) ease-out allow-discrete,
+        display var(--animation-speed) ease-out allow-discrete;
+
+    &[open] {
+        opacity: 1;
+        translate: 0 0;
+    }
+
+    @starting-style {
+        &[open] {
+            opacity: 0;
+            translate: 0 var(--start-position-y);
+        }
+    }
+}
+
+@keyframes slide-in-up {
+    0% {
+        transform: translateY(100%);
+    }
+    100% {
+        transform: translateY(0%);
+    }
+}
+
+.eslint-report-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+
+    @container main (width <= theme(--container-3xl)) {
+        grid-template-columns: none;
+    }
+}
+
+.eslint-report-problems {
+    grid-column: 1 / span 2;
+    @container main (width <= theme(--container-3xl)) {
+        grid-column: auto / auto;
+    }
+}
+
+details summary::-webkit-details-marker {
+    display: none;
+}
+
+.page-active, .pagination-link {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        border-top: transparent calc(var(--spacing) * 0.75) solid;
+        top: calc(-0.5 * var(--spacing));
+        left: 0;
+        right: 0;
+        bottom: 0;
+        transition-property: transform;
+        transition-timing-function: ease-in;
+
+        @apply duration-150;
+    }
+}
+
+.page-active {
+    &::after {
+        border-top-color: var(--color-blue-500);
+        transform: scaleX(1);
+
+        @starting-style {
+            transform: scaleX(0);
+        }
+    }
+}
+
+.pagination-link {
+    &::after {
+        border-top-color: var(--color-blue-200);
+        transform: scaleX(0);
+    }
+
+    &:hover,
+    &:focus-visible {
+        &::after {
+            transform: scaleX(0.75);
+        }
+    }
+}
+
+.pagination-tooltip {
+    position: fixed;
+    position-anchor: --paginationShortcutAnchor;
+    position-area: top;
+    margin: 0 0 5px 0;
+    position-try-fallbacks: --compact-target, flip-block;
+
+    border: calc(0.5 * var(--spacing)) var(--color-gray-200) solid;
+    border-radius: var(--radius-2xl);
+    z-index: 99;
+
+    transform: scale(1);
+    opacity: 1;
+    transform-origin: center bottom;
+    transition-property: transform, opacity;
+    transition-timing-function: ease-in;
+    transition-duration: 0.25s, 0.3s;
+
+    @starting-style {
+        transform: scale(0);
+        opacity: 0.25;
+    }
+
+    &.fade-out {
+        transform: scale(0);
+        opacity: 0.25;
+    }
+
+    .pagination {
+        display: grid;
+        grid-template-columns: repeat(6, auto);
+    }
+}
+
+@position-try --compact-target {
+    grid-template-columns: repeat(10, auto);
+}
+
+@supports not (position-area: top) {
+    .pagination-tooltip,
+    .tooltip {
+        display: none;
+    }
+}
+
+.tooltip {
+    position: fixed;
+    position-area: top;
+    margin: 0 0 5px 0;
+    position-try-fallbacks: flip-block;
+
+    transform: scale(1);
+    opacity: 1;
+    transform-origin: center bottom;
+    transition-property: transform, opacity;
+    transition-timing-function: ease-in;
+    transition-duration: 0.25s, 0.3s;
+
+    @starting-style {
+        transform: scale(0);
+        opacity: 0.25;
+    }
+
+    &.fade-out {
+        transform: scale(0);
+        opacity: 0.25;
+    }
+}
+
+.active-tab {
+    background-color: var(--color-slate-100);
+}
+
+.enlarge-image-tooltip-target:where(:hover, :focus-within) {
+    anchor-name: attr(data-anchor type(<custom-ident>), none);
+}
+
+:root:has(.enlarge-image-tooltip-target:where(:hover, :focus-within)) .enlarge-image-tooltip {
+    opacity: 1;
+}
+
+.enlarge-image-tooltip {
+    position-anchor: --enlarge-image-tooltip;
+    z-index: 999;
+    font-size: var(--text-xs);
+    background-color: var(--color-white);
+    position: fixed;
+    bottom: anchor(top);
+    justify-self: anchor-center;
+    margin: 0 0 5px 0;
+    padding-block: calc(var(--spacing)* 1);
+    padding-inline: calc(var(--spacing)* 2);
+    border-radius: var(--radius-2xl);
+    opacity: 0;
+}
