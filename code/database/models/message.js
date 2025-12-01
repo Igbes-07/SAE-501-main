@@ -1,5 +1,6 @@
 import mongoose, { Schema } from "mongoose";
-import isEmail from 'validator/lib/isEmail';
+import isEmail from "validator/lib/isEmail";
+import { errorRequiredMessage } from "#database/error-messages.js";
 
 const messageSchema = new Schema({
     lastname: {
@@ -29,17 +30,16 @@ const messageSchema = new Schema({
     email: {
         type: String,
         required: [
-            true,
-            errorRequiredMessage("un email"),
+            true, errorRequiredMessage("un email"), 
         ],
-        validate : [isEmail,'Veuillez mettre un email valide.'],
+        validate: [isEmail, "Veuillez mettre un email valide."],
         trim: true,
     },
     identity: {
         type: String,
-        enum: ['non_precise', 'etudiant', 'autre', 'parent'],
-        default: 'non_precise',
+        enum: ["non_precise", "etudiant", "autre", "parent"],
+        default: "non_precise",
     },
 });
 
-export default mongoose.model("Message", messageSchema);
+export default mongoose.model("Message", messageSchema); 
