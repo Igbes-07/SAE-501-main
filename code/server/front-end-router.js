@@ -52,5 +52,13 @@ router.get("/a-propos(.html)?", routeName("about"), async (_req, res) => {
         list_saes: result.data,
     });
 });
+// Doit être la DERNIÈRE route
+router.use((req, res) => {
+    res.status(404).render("pages/front-end/404.njk", {
+        title: "Page non trouvée",
+    });
+});
+
+
 
 export default router;

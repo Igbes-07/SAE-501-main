@@ -1,0 +1,14 @@
+{% extends "layouts/front-end/base.njk" %}
+
+{% block title %}Page non trouvée
+{% endblock %}
+
+{% block main %}
+  <main class="min-h-[60vh] flex flex-col items-center justify-center gap-4 py-16">
+    <h1 class="text-6xl font-extrabold">404</h1>
+    <p class="text-xl">Oups… cette page n'existe pas.</p>
+    <a href="/" class="text-blue-500 underline mt-4">
+      Revenir à l'accueil
+    </a>
+  </main>
+{% endblock %}
