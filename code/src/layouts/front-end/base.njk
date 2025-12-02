@@ -6,6 +6,8 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
         <meta name="theme-color" content="#ffffff"/>
+        <link rel="icon" type="image/x-icon" href="/public/favicon.ico">
+
 
         <title>
             {% block title %}IUT de Cergy Pontoise{% endblock %} - SAÉ 501
@@ -41,9 +43,18 @@
         <main class="max-w-[1200px] mx-auto @container/main">
             {% block main %}{% endblock %}
 
+                            <footer class="border-y border-gray-200 text-center mx-6 my-3 py-1.5">
+                    <p class="font-bold text-base">SAE 501</p>
+                    <div class="flex flex-col sm:flex-row flex-wrap w-fit mx-auto">
+                        <p class="font-bold">Projet réalisé par :</p>
+                        <ul class="contents">
+                            <li class="px-1">Wassila Hamed</li>
+                            <li class="px-1">Anaïs Goulamhoussen</li>
+                            <li class="px-1">Inès Goubaa</li>
+                        </ul>
+                    </div>
+                </footer>
+
         </main>
-        <footer class = "text-center p-4 text-sm text-gray-400">
-        Projet réalisé par : Wassila Hame, Anaïs Goulamhousse et Inès Gouba
-        </footer>
     </body>
 </html>
