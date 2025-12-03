@@ -1,33 +1,47 @@
 {% extends "layouts/front-end/base.njk" %}
 
 {% block main %}
+{% set articles = list_articles.data or list_articles %}
+
     <section class="grid grid-cols-1 lg:grid-cols-[1fr_24rem] gap-x-6 gap-y-4 mb-6">
         <h1 class="text-3xl font-bold lg:col-span-2 mt-6 lg:mt-0">Articles sur le BUT MMI</h1>
         <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
+              {% if articles and (articles | length) %}
+            {% for article in articles %}
             <li>
-                <a class="flex flex-col sm:max-lg:landscape:flex-row w-full shadow-sm hocus:shadow-xl transition-shadow rounded-lg overflow-hidden" href="">
+                <a 
+                class="flex flex-col sm:max-lg:landscape:flex-row w-full shadow-sm hocus:shadow-xl transition-shadow rounded-lg overflow-hidden" 
+                href="/article/{{ article._id }}">
                     <div class="aspect-25/14 overflow-hidden">
-                        <img class="object-cover h-full w-full" src="/images/image-placeholder-article.png" alt="">
+                    <img
+                        class="object-cover h-full w-full"
+                        src="{{ '/images/image-placeholder-article.png' 
+                                if (not article.image or article.image|length == 0) 
+                                else '/uploads/' ~ article.image }}"
+                        alt="{{ article.title }}"
+                    >
+
                     </div>
                     <section class="p-8 pb-11">
-                        <h2 class="text-2xl font-bold">Exemple article 1</h2>
-                        <p>Ceci est un texte temporaire, il sera remplacé par du texte en provenance de la base de données.</p>
-                        <p class="italic text-gray-600 mt-8 text-right">Par Helena Despoux</p>
+                        <h2 class="text-2xl font-bold">
+                            {{ article.title }}</h2>
+                        <p> {{ article.chapo or "Cet article n'a pas encore de chapo." }}</p>
+                        <p class="italic text-gray-600 mt-8 text-right">
+                            {% if article.author %}
+                                Par {{ article.author.name }}
+                            {% else %}
+                                Auteur inconnu
+                            {% endif %}
+                        </p>
                     </section>
                 </a>
             </li>
+{% endfor %}
+          {% else %}
             <li>
-                <a class="flex flex-col sm:max-lg:landscape:flex-row w-full shadow-sm hocus:shadow-xl transition-shadow rounded-lg overflow-hidden" href="">
-                    <div class="aspect-25/14 overflow-hidden">
-                        <img class="object-cover h-full w-full" src="/images/image-placeholder-article.png" alt="">
-                    </div>
-                    <section class="p-8 pb-11">
-                        <h2 class="text-2xl font-bold">Exemple article 2</h2>
-                        <p>Ceci est un texte temporaire, il sera remplacé par du texte en provenance de la base de données.</p>
-                        <p class="italic text-gray-600 mt-8 text-right">Par Helena Despoux</p>
-                    </section>
-                </a>
+              <p>Aucun article actif pour le moment.</p>
             </li>
+          {% endif %}
         </ul>
         <a class="jpo-banniere rounded-lg overflow-hidden order-first lg:order-none" href="https://www.cyu.fr/formation/construire-son-projet/salons-journee-portes-ouvertes" title="Ouverture dans un nouvel onglet">
             <div class="logo">
