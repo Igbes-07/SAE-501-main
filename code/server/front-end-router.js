@@ -52,11 +52,10 @@ router.get("/a-propos(.html)?", routeName("about"), async (_req, res) => {
         list_saes: result.data,
     });
 });
-// Route Contact
-router.get("/contact(.html)?", routeName("contact"), async (_req, res) => {
-    res.render("pages/front-end/contact.njk");
-});
 
+router.get("/lieux-de-vie", routeName("places"), async (_req, res) => {
+    res.render("pages/front-end/lieux-de-vie.njk");
+});
 
 // Doit être la DERNIÈRE route
 router.use((req, res) => {

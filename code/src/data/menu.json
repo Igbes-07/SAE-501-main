@@ -1,25 +1,24 @@
 {
-  "menu": [
-    {
-      "name": "ACCUEIL",
-      "link": "/"
-    },
-    {
-      "name": "A PROPOS",
-      "link": "/a-propos.html"
-    },
-    {
-      "name": "LIEUX DE VIE",
-      "link": "/lieux.html"
-    },
-    {
-      "name": "SUR LES MÉDIAS",
-      "link": "/sur-les-medias.html"
-    },
-    {
-      "name": "CONTACT",
-      "link": "/contact"
-    }
-
-  ]
+    "menu": [
+        {
+            "name": "ACCUEIL",
+            "link": "/"
+        },
+        {
+            "name": "A PROPOS",
+            "link": "/a-propos.html"
+        },
+        {
+            "name": "LIEUX DE VIE",
+            "link": "/lieux-de-vie"
+        },
+        {
+            "name": "SUR LES MÉDIAS",
+            "link": "/sur-les-medias.html"
+        },
+        {
+            "name": "CONTACT",
+            "link": "/contact.html"
+        }
+    ]
 }
