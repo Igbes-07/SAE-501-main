@@ -57,6 +57,11 @@ router.get("/lieux-de-vie", routeName("places"), async (_req, res) => {
     res.render("pages/front-end/lieux-de-vie.njk");
 });
 
+// Route Contact
+router.get("/contact(.html)?", routeName("contact"), async (_req, res) => {
+    res.render("pages/front-end/contact.njk");
+});
+
 // Doit être la DERNIÈRE route
 router.use((req, res) => {
     res.status(404).render("pages/front-end/404.njk", {
