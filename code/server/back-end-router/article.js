@@ -51,7 +51,7 @@ router.get([`/${base}/:id`, `/${base}/add`], async (req, res) => {
         listErrors = error.response.data.errors;
     }
 
-    res.render("", {
+    res.render("pages/back-end/articles/add-edit.njk", {
         article: result?.data || {},
         list_errors: listErrors,
         is_edit: isEdit,
@@ -105,7 +105,7 @@ router.post([`/${base}/:id`, `/${base}/add`], upload.single("image"), async (req
         ressource = e.response.data.ressource || {};
     } finally {
         if (listErrors.length || isEdit) {
-            res.render("", {
+            res.render("pages/back-end/articles/add-edit.njk", {
                 article: ressource,
                 list_errors: listErrors,
                 list_authors: listAuthors,
