@@ -16,9 +16,9 @@
             "name": "SUR LES MÉDIAS",
             "link": "/sur-les-medias.html"
         },
-        {
-            "name": "CONTACT",
-            "link": "/contact.html"
-        }
+      {
+      "name": "CONTACT",
+      "link": "/contact"
+    }
     ]
 }
