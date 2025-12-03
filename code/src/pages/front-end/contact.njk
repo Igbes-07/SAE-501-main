@@ -1,0 +1,32 @@
+{% extends "layouts/front-end/base.njk" %}
+
+{% block title %}Contact – BUT MMi{% endblock %}
+
+{% block main %}
+  <main class="max-w-3xl mx-auto py-12 space-y-6">
+    <h1 class="text-3xl font-bold mb-4">Contact</h1>
+
+    <form id="contact-form" class="space-y-4">
+      <div>
+        <label for="name" class="block text-sm font-medium">Nom</label>
+        <input id="name" name="name" type="text" class="w-full border rounded p-2" required>
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-medium">Email</label>
+        <input id="email" name="email" type="email" class="w-full border rounded p-2" required>
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-medium">Message</label>
+        <textarea id="message" name="message" rows="4" class="w-full border rounded p-2" required></textarea>
+      </div>
+
+      <p id="contact-feedback" class="text-sm"></p>
+
+      <button type="submit" class="px-4 py-2 rounded bg-blue-600 text-white">
+        Envoyeé
+      </button>
+    </form>
+  </main>
+{% endblock %}
