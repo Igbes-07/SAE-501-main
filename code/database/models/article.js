@@ -15,7 +15,11 @@ const articleSchema = new Schema(
             ],
             trim: true,
         },
-        abstract: String,
+        abstract: {
+            type: String,
+            default: "",
+            trim: true,
+        },
         content: {
             type: String,
             required: [

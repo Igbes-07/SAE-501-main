@@ -25,7 +25,7 @@
                     <section class="p-8 pb-11">
                         <h2 class="text-2xl font-bold">
                             {{ article.title }}</h2>
-                        <p> {{ article.chapo or "Cet article n'a pas encore de chapo." }}</p>
+                        <p> {{ article.abstract  or "Cet article n'a pas encore de chapo." }}</p>
                         <p class="italic text-gray-600 mt-8 text-right">
                             {% if article.author %}
                                 Par {{ article.author.name }}
