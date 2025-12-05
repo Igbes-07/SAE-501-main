@@ -62,6 +62,35 @@ router.get("/contact(.html)?", routeName("contact"), async (_req, res) => {
     res.render("pages/front-end/contact.njk");
 });
 
+// Page d'un article précis
+router.get("/article/:id", routeName("article_show"), async (req, res) => {
+    let article = {};
+    let listErrors = [];
+
+    try {
+        const options = {
+            method: "GET",
+            url: `${res.locals.base_url}/api/articles/${req.params.id}`,
+        };
+        const result = await axios(options);
+        article = result.data;
+    } catch (e) {
+        listErrors = e?.response?.data?.errors || ["Une erreur est survenue"];
+    }
+
+    // Si l'article n'existe pas -> on renvoie la vraie 404 du site
+    if (!article || !article._id) {
+        return res.status(404).render("pages/front-end/404.njk", {
+            title: "Article introuvable",
+        });
+    }
+
+    res.render("pages/front-end/article.njk", {
+        article,
+        list_errors: listErrors,
+    });
+});
+
 // Doit être la DERNIÈRE route
 router.use((req, res) => {
     res.status(404).render("pages/front-end/404.njk", {
