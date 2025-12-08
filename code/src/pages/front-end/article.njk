@@ -23,6 +23,7 @@
         La rédaction
       {% endif %}
     </p>
+    
 
     {# 🟢 CHAPO (abstract) — texte court #}
     {% if article.abstract %}
@@ -30,6 +31,21 @@
         {{ article.abstract }}
       </p>
     {% endif %}
+
+    {# 🔹 Vidéo YouTube (si présente) #}
+{% if article.yt_video_id %}
+  <section class="mt-10 aspect-video">
+    <iframe
+      class="w-full h-full rounded-lg"
+      src="https://www.youtube.com/embed/{{ article.yt_video_id }}"
+      title="Vidéo associée à l'article"
+      frameborder="0"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+      referrerpolicy="strict-origin"
+    ></iframe>
+  </section>
+{% endif %}
 
     {# 🟣 CONTENU COMPLET #}
     <div class="prose max-w-none">
