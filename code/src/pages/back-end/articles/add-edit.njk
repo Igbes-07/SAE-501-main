@@ -55,6 +55,28 @@
                         value="{{ article.title | default('') }}"
                     />
                 </label>
+                {# Auteur #}
+                <label class="block mb-4">
+                    <span class="font-bold text-slate-700">Auteur</span>
+                    <select
+                        name="author"
+                        class="block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-xs focus:outline-hidden focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+                    >
+                        <option value="">Aucun</option>
+
+                        {% for a in list_authors %}
+                            <option
+                                value="{{ a._id }}"
+                                {% if article.author and (article.author._id == a._id or article.author == a._id) %}
+                                    selected
+                                {% endif %}
+                            >
+                                {{ a.firstname }} {{ a.lastname }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </label>
+
                             {# --- CHAPO (ABSTRACT) --- #}
             <label class="block mb-4">
                 <span class="font-bold text-slate-700">Chapo</span>
