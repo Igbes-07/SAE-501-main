@@ -33,27 +33,44 @@ router.get(`/${base}`, async (req, res) => {
 });
 
 // Get or create article
-router.get([`/${base}/:id`, `/${base}/add`], async (req, res) => {
-    const isEdit = req.params.id !== "add";
+router.get([`/${base}/:id([a-f0-9]{24})`, `/${base}/add`], async (req, res) => {
+    // true si on a un ObjectId valide → édition, sinon ajout
+    const isEdit = mongoose.Types.ObjectId.isValid(req.params.id);
 
     let result = {};
     let listErrors = [];
+    let listAuthors = [];
 
-    try {
-        if (isEdit) {
+    // 1️⃣ Si on édite → récupérer l'article
+    if (isEdit) {
+        try {
             const options = {
                 method: "GET",
                 url: `${res.locals.base_url}/api/${ressourceNameInApi.articles}/${req.params.id}`,
             };
             result = await axios(options);
+        } catch (error) {
+            listErrors = error.response.data.errors;
         }
-    } catch (error) {
-        listErrors = error.response.data.errors;
     }
 
+    // 2️⃣ Récupérer la liste des auteurs
+    try {
+        const authorsRes = await axios({
+            method: "GET",
+            url: `${res.locals.base_url}/api/${ressourceNameInApi.authors}`,
+        });
+        // d’après ton POST tu utilises .data.data pour les auteurs
+        listAuthors = authorsRes.data.data;
+    } catch (e) {
+        // si ça plante, on laisse listAuthors = []
+    }
+
+    // 3️⃣ Envoyer article + erreurs + auteurs au template
     res.render("pages/back-end/articles/add-edit.njk", {
         article: result?.data || {},
         list_errors: listErrors,
+        list_authors: listAuthors,
         is_edit: isEdit,
     });
 });
@@ -116,5 +133,6 @@ router.post([`/${base}/:id`, `/${base}/add`], upload.single("image"), async (req
         }
     }
 });
+
 
 export default router;

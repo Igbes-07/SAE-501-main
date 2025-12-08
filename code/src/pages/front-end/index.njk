@@ -22,17 +22,20 @@
                     >
 
                     </div>
-                    <section class="p-8 pb-11">
-                        <h2 class="text-2xl font-bold">
-                            {{ article.title }}</h2>
+                    <section class="p-8 flex flex-col gap-3">
+                        <h2 class="text-2xl font-bold">{{ article.title }}</h2>
                         <p> {{ article.abstract  or "Cet article n'a pas encore de chapo." }}</p>
-                        <p class="italic text-gray-600 mt-8 text-right">
-                            {% if article.author %}
-                                Par {{ article.author.name }}
-                            {% else %}
-                                Auteur inconnu
-                            {% endif %}
-                        </p>
+                    <p class="italic text-gray-600 text-right text-sm mt-auto">
+                    {% if article.author %}
+                        Par
+                        <a href="/auteurs/{{ article.author._id }}" class="text-blue-700 hocus:underline">
+                        {{ article.author.firstname }} {{ article.author.lastname }}
+                        </a>
+                    {% else %}
+                        Auteur inconnu
+                    {% endif %}
+                    </p>
+
                     </section>
                 </a>
             </li>
