@@ -91,6 +91,32 @@ router.get("/article/:id", routeName("article_show"), async (req, res) => {
     });
 });
 
+router.get("/author/:id", routeName("author"), async (req, res) => {
+    let result = {};
+    let listErrors = [];
+
+    try {
+        const options = {
+            method: "GET",
+            url: `${res.locals.base_url}/api/authors/${req.params.id}`,
+        };
+        result = await axios(options);
+    } catch (error) {
+        listErrors = error.response?.data?.errors || ["Une erreur est survenue"];
+    }
+
+    if (!result.data && listErrors.length) {
+        // Auteur introuvable → 404 propre
+        return res.status(404).render("pages/front-end/404.njk", {
+            title: "Auteur introuvable",
+        });
+    }
+
+    res.render("pages/front-end/auteurs.njk", {
+        author: result.data,
+        list_errors: listErrors,
+    });
+});
 // Doit être la DERNIÈRE route
 router.use((req, res) => {
     res.status(404).render("pages/front-end/404.njk", {

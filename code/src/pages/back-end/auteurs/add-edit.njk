@@ -1,0 +1,167 @@
+{% extends "layouts/back-end/base.njk" %}
+
+{% block title %}
+  {% if is_edit %}
+    Éditer l’auteur "{{ author.firstname }} {{ author.lastname }}"
+  {% else %}
+    Créer un auteur
+  {% endif %}
+{% endblock %}
+
+{% set active_menu_item = "authors" %}
+{% set chars_limit = 300 %}
+
+{% import "components/back-end/input-file.njk" as input_file with context %}
+
+{% block main %}
+  <div class="bg-white rounded-2xl shadow-md pb-6">
+    <header class="mb-1 p-6">
+      {% include "components/back-end/breadcrumb.njk" %}
+      <h2 class="text-4xl">
+        {% if is_edit %}
+          Éditer l’auteur "{{ author.firstname }} {{ author.lastname }}"
+        {% else %}
+          Créer un auteur
+        {% endif %}
+      </h2>
+      <p class="text-sm">
+        Les champs avec
+        <span class="font-bold text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500"></span>
+        sont requis
+      </p>
+    </header>
+
+    <div class="px-6">
+      {# erreurs serveur #}
+      {% for item in list_errors %}
+        <p class="rounded-lg p-3 bg-red-100 text-red-800 border border-red-700 mb-3">
+          {{ item }}
+        </p>
+      {% endfor %}
+
+      {% if messages.success %}
+        <p
+          class="rounded-lg p-3 bg-green-100 text-green-800 border-solid border-x border-y border-green-700 mb-3"
+          data-flash-message
+        >
+          {{ messages.success }}
+        </p>
+      {% endif %}
+
+      <form action="" method="post" enctype="multipart/form-data" data-form>
+        {# NOM #}
+        <label class="block mb-4">
+          <span class="font-bold text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500">
+            Nom
+          </span>
+          <input
+            type="text"
+            name="lastname"
+            class="block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-xs
+                   focus:outline-hidden focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+            value="{{ author.lastname | default('') }}"
+          >
+        </label>
+
+        {# PRÉNOM #}
+        <label class="block mb-4">
+          <span class="font-bold text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500">
+            Prénom
+          </span>
+          <input
+            type="text"
+            name="firstname"
+            class="block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-xs
+                   focus:outline-hidden focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+            value="{{ author.firstname | default('') }}"
+          >
+        </label>
+
+        {# EMAIL #}
+        <label class="block mb-4">
+          <span class="font-bold text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500">
+            Email
+          </span>
+          <input
+            type="email"
+            name="email"
+            class="block bg-white w-full border border-slate-300 rounded-md py-2 px-3 shadow-xs
+                   focus:outline-hidden focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+            value="{{ author.email | default('') }}"
+            placeholder="prenom.nom@example.com"
+          >
+        </label>
+
+        {# IMAGE (OBLIGATOIRE, NAME = image) #}
+        <div class="block mb-4">
+          <label for="image">
+            <span class="font-bold text-slate-700 after:content-['*'] after:ml-0.5 after:text-red-500">
+              Image
+            </span>
+          </label>
+          {{ input_file.field(author.image, undefined, ".jpg, .jpeg, .png, .avif", "image", "image") }}
+        </div>
+
+        {# BIO #}
+        <label class="block mb-4">
+          <span class="font-bold text-slate-700">
+            Bio / description
+          </span>
+          <textarea
+            name="bio"
+            cols="15"
+            rows="4"
+            maxlength="{{ chars_limit }}"
+            class="block bg-white w-full border border-slate-300 rounded-md py-2 pr-3 shadow-xs
+                   focus:outline-hidden focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
+            aria-describedby="bio_counter_description"
+          >{{ author.bio | default('') }}</textarea>
+          <p class="text-sm" id="bio_counter_description">
+            {{ chars_limit }} caractères restants
+          </p>
+        </label>
+
+        {# COULEUR #}
+        <label class="block mb-6">
+          <span class="font-bold text-slate-700">
+            Couleur associée (bulle)
+          </span>
+          <div class="flex items-center gap-3 mt-2">
+            <input
+              type="color"
+              name="color"
+              class="w-10 h-10 rounded-md border border-slate-300 cursor-pointer"
+              value="{{ author.color | default('#ff0000') }}"
+            >
+            <span class="text-sm text-slate-600">
+              Utilisée pour la bulle / identité visuelle de l’auteur.
+            </span>
+          </div>
+        </label>
+
+        <div class="flex gap-x-3 gap-y-5 flex-col justify-end sm:flex-row">
+          <button
+            class="px-4 py-2 font-semibold text-sm bg-blue-700 hocus:bg-blue-950 text-white rounded-2xl shadow-xs
+                   inline-flex gap-1 items-center justify-center"
+            type="submit"
+          >
+            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg"
+                 fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
+                 class="w-6 h-6">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                    d="m16.862 4.487 1.687-1.688a1.875 1.875 0 1 1 2.652 2.652L10.582 16.07a4.5 4.5 0 0 1-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 0 1 1.13-1.897l8.932-8.931Zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0 1 15.75 21H5.25A2.25 2.25 0 0 1 3 18.75V8.25A2.25 2.25 0 0 1 5.25 6H10"/>
+            </svg>
+            Sauvegarder
+          </button>
+
+          <button
+            class="px-4 py-2 font-semibold text-sm bg-neutral-100 hocus:bg-neutral-200 text-black rounded-2xl shadow-xs"
+            type="reset"
+          >
+            Réinitialiser
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
