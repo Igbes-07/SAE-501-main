@@ -49,16 +49,29 @@ if (process.env.NODE_ENV === "development") {
     app.use(vite.middlewares);
 }
 
-// To improve security
+app.use((req, res, next) => {
+    res.setHeader(
+        "Content-Security-Policy",
+        "frame-ancestors 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com;"
+    );
+    next();
+});
+
+
 app.use(
     helmet({
         contentSecurityPolicy: false,
         crossOriginResourcePolicy: false,
+        referrerPolicy: {
+            policy: "strict-origin-when-cross-origin",
+        },
     })
 );
+
 app.use(cookieParser());
 app.use(expressFlash());
 app.use(cors());
+
 
 app.use(
     cookieSession({
@@ -341,6 +354,22 @@ const nunjucksEnv = nunjucks.configure(app.get("views"), {
 nunjucksEnv.addFilter("date", (value, format) => {
     return DateTime.fromISO(value).toFormat(format);
 });
+
+nunjucksEnv.addFilter("youtubeId", function (url) {
+    if (!url) return null;
+
+    const shorts = url.match(/shorts\/([a-zA-Z0-9_-]+)/);
+    if (shorts) return shorts[1];
+
+    const watch = url.match(/v=([a-zA-Z0-9_-]+)/);
+    if (watch) return watch[1];
+
+    const share = url.match(/youtu\.be\/([a-zA-Z0-9_-]+)/);
+    if (share) return share[1];
+
+    return url;
+});
+
 
 const getContextData = (root) => {
     let res = {};

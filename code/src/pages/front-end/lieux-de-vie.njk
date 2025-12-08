@@ -8,15 +8,16 @@
     <h1 class="text-3xl font-bold">Lieux de vie</h1>
     <p>Bienvenue sur la page des lieux de vie.</p>
 
-<iframe 
-  width="560" 
-  height="315"
-  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-  frameborder="0"
-  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-  allowfullscreen
-></iframe>
+{% if context.lieux_de_vie_video %}
+<iframe
+    class="w-full aspect-video"
+    src="https://www.youtube.com/embed/{{ context.lieux_de_vie_video | youtubeId }}"
+    frameborder="0"
+    allowfullscreen>
+</iframe>
+{% endif %}
 
+  
  {# ---------------- INTRO + BIBLIOTHÈQUE (vidéo à gauche, texte à droite) ---------------- #}
   <section class="space-y-8">
     <header class="space-y-2">
