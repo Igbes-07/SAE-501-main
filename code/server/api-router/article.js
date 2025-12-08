@@ -8,6 +8,37 @@ import Author from "#models/author.js";
 import upload, { uploadImage, deleteUpload } from "#server/uploader.js";
 import mongoose from "mongoose";
 
+function extractYouTubeId(input) {
+    if (!input) return null;
+
+    const value = String(input).trim();
+
+    // Cas où l'utilisateur a déjà mis l'ID
+    if (/^[A-Za-z0-9_-]{11}$/.test(value)) {
+        return value;
+    }
+
+    // URL classique : https://www.youtube.com/watch?v=ID
+    let match = value.match(/[?&]v=([A-Za-z0-9_-]{11})/);
+    if (match) return match[1];
+
+    // URL courte : https://youtu.be/ID
+    match = value.match(/youtu\.be\/([A-Za-z0-9_-]{11})/);
+    if (match) return match[1];
+
+    // Shorts : https://www.youtube.com/shorts/ID
+    match = value.match(/shorts\/([A-Za-z0-9_-]{11})/);
+    if (match) return match[1];
+
+    // Iframe : src="https://www.youtube.com/embed/ID"
+    match = value.match(/embed\/([A-Za-z0-9_-]{11})/);
+    if (match) return match[1];
+
+    // Rien de valide trouvé
+    return null;
+}
+
+
 const router = express.Router();
 
 const base = "articles";
@@ -259,10 +290,10 @@ router.post(`/${base}`, upload.single("image"), async (req, res) => {
     }
 
     const computedBody = structuredClone(req.body);
-    if (!mongoose.Types.ObjectId.isValid(req.body.author)) {
+    computedBody.yt_video_id = extractYouTubeId(computedBody.yt_video_id);
+    if (!mongoose.Types.ObjectId.isValid(computedBody.author)) {
         delete computedBody.author;
     }
-
     const ressource = new Article({ ...computedBody, ...imagePayload });
     try {
         await ressource.save();
@@ -382,6 +413,12 @@ router.put([`/${base}/:id([a-f0-9]{24})`, `/${base}/:slug([\\w\\d\\-]+\\-[a-f0-9
     try {
         let [ressource] = await Article.find({ [searchKey]: searchParam });
         const newPayload = { ...req.body, ...imagePayload };
+        // 🔹 On nettoie l'ID YouTube si le champ est présent
+        if ("yt_video_id" in newPayload) {
+            const id = extractYouTubeId(newPayload.yt_video_id);
+            newPayload.yt_video_id = id || null;
+        }
+
         Object.entries(newPayload).forEach(([key, value]) => {
             ressource[key] = value;
         });
