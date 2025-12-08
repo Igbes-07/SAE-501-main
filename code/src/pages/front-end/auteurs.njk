@@ -1,0 +1,77 @@
+{% extends "layouts/front-end/base.njk" %}
+
+{% block title %}
+  {% if author %}
+    {{ author.firstname }} {{ author.lastname }} - Auteur
+  {% else %}
+    Auteur introuvable
+  {% endif %}
+{% endblock %}
+
+{% block main %}
+  {% if not author %}
+    <section class="max-w-3xl mx-auto my-10">
+      <h1 class="text-3xl font-bold mb-4">Auteur introuvable</h1>
+      <p>Impossible de trouver cet auteur.</p>
+    </section>
+  {% else %}
+    <section class="max-w-4xl mx-auto my-10 grid gap-8 md:grid-cols-[220px,1fr]">
+      {# --- Colonne gauche : avatar + nom --- #}
+      <div>
+        <div class="w-44 h-44 rounded-full overflow-hidden bg-slate-200 mx-auto md:mx-0 mb-4">
+          <img
+            src="{{ '/images/image-placeholder-author.png'
+                   if (not author.image or author.image|length == 0)
+                   else '/uploads/' ~ author.image }}"
+            alt="{{ author.firstname }} {{ author.lastname }}"
+            class="w-full h-full object-cover"
+          >
+        </div>
+
+        <h1 class="text-3xl font-bold text-center md:text-left">
+          {{ author.firstname }} {{ author.lastname }}
+        </h1>
+
+        {% if author.role %}
+          <p class="text-slate-600 mt-1 text-center md:text-left">
+            {{ author.role }}
+          </p>
+        {% endif %}
+      </div>
+
+      {# --- Colonne droite : bio + liste des articles --- #}
+      <div>
+        {% if author.bio %}
+          <h2 class="text-xl font-semibold mb-2">À propos</h2>
+          <p class="mb-6">{{ author.bio }}</p>
+        {% endif %}
+
+        <h2 class="text-xl font-semibold mb-3">Articles de cet auteur</h2>
+
+        {% set articles = author.list_articles or author.articles or [] %}
+
+        {% if articles and (articles | length) %}
+          <ul class="space-y-3">
+            {% for art in articles %}
+              <li>
+                <a
+                  href="/article/{{ art._id }}"
+                  class="text-blue-700 hocus:underline font-medium"
+                >
+                  {{ art.title }}
+                </a>
+            {% if art.abstract %}
+                <p class="text-sm text-slate-600">
+                  {{ art.abstract }}
+                </p>
+            {% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p>Cet auteur n’a pas encore d’article publié.</p>
+        {% endif %}
+      </div>
+    </section>
+  {% endif %}
+{% endblock %}
