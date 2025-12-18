@@ -57,6 +57,10 @@ router.get("/lieux-de-vie", routeName("places"), async (_req, res) => {
     res.render("pages/front-end/lieux-de-vie.njk");
 });
 
+router.get("/sur-les-medias", async (req, res) => {
+    res.render("pages/front-end/sur-les-medias.njk");
+});
+
 // Route Contact
 router.get("/contact(.html)?", routeName("contact"), async (_req, res) => {
     res.render("pages/front-end/contact.njk");
