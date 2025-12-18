@@ -108,6 +108,12 @@
     &.bleu {
         background-color: #011d37;
     }
+    &.violet {
+        background-color: #6b1158;
+    }
+    &.gris {
+        background-color: #8b8b8b;
+    }
 }
 
 .bulle-icone-bordure {
@@ -154,5 +160,11 @@
 
     &.bleu {
         background-color: #00a2ff;
+    }
+    &.violet {
+        background-color: #b80688;
+    }
+    &.gris {
+        background-color: #7a7a7a;
     }
 }
