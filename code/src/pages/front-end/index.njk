@@ -8,28 +8,6 @@
         Articles sur le BUT MMI
     </h1>
 
-<<<<<<< Updated upstream
-                    </div>
-                    <section class="p-8 flex flex-col gap-3">
-                        <h2 class="text-2xl font-bold">{{ article.title }}</h2>
-                        <p> {{ article.abstract  or "Cet article n'a pas encore de chapo." }}</p>
-                    <p class="italic text-gray-600 text-right text-sm mt-auto">
-                    {% if article.author %}
-                        Par
-                        <a href="/auteurs/{{ article.author._id }}" class="text-blue-700 hocus:underline">
-                        {{ article.author.firstname }} {{ article.author.lastname }}
-                        </a>
-                    {% else %}
-                        Auteur inconnu
-                    {% endif %}
-                    </p>
-
-                    </section>
-                </a>
-            </li>
-{% endfor %}
-          {% else %}
-=======
     <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
         {% if articles and (articles | length) %}
             {% for article in articles %}
@@ -42,7 +20,7 @@
                             <img
                                 class="object-cover h-full w-full"
                                 src="{{ '/images/image-placeholder-article.png'
-                                    if (not article.image or article.image|length == 0)
+                                    if (not article.image or article.image | length == 0)
                                     else '/uploads/' ~ article.image }}"
                                 alt="{{ article.title }}"
                             >
@@ -63,7 +41,6 @@
                 </li>
             {% endfor %}
         {% else %}
->>>>>>> Stashed changes
             <li>
                 <p>Aucun article actif pour le moment.</p>
             </li>
@@ -92,4 +69,3 @@
     {% endif %}
 </section>
 {% endblock %}
-
