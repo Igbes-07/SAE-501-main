@@ -31,7 +31,7 @@
                             <p>{{ article.abstract or "Cet article n'a pas encore de chapo." }}</p>
                             <p class="italic text-gray-600 mt-8 text-right">
                                 {% if article.author %}
-                                    Par {{ article.author.name }}
+                                    Par {{ article.author.firstname }} {{ article.author.lastname }}
                                 {% else %}
                                     Auteur inconnu
                                 {% endif %}
