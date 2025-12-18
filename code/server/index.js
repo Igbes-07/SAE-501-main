@@ -72,6 +72,8 @@ app.use(cookieParser());
 app.use(expressFlash());
 app.use(cors());
 
+app.use(express.urlencoded({ extended: true }));
+
 
 app.use(
     cookieSession({

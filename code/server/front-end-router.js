@@ -1,8 +1,12 @@
 import express from "express";
 import axios from "axios";
+import fs from "fs/promises";
+import path from "path";
 
 import routeName from "#server/utils/name-route.middleware.js";
 import parseManifest from "#server/utils/parse-manifest.js";
+
+const openDayFilePath = path.resolve("src/data/open-day.json");
 
 const router = express.Router();
 
@@ -20,12 +24,23 @@ router.use(async (_req, res, next) => {
     next();
 });
 
+// ✅ HOME — lecture dynamique de open-day.json
 router.get("/", routeName("homepage"), async (req, res) => {
+    let open_day = null;
+
+    try {
+        const file = await fs.readFile(openDayFilePath, "utf-8");
+        open_day = JSON.parse(file).open_day;
+    } catch (err) {
+        console.error("Erreur lecture open-day.json :", err);
+    }
+
     const queryParams = new URLSearchParams(req.query).toString();
     const options = {
         method: "GET",
         url: `${res.locals.base_url}/api/articles?${queryParams}&is_active=true`,
     };
+
     let result = {};
     try {
         result = await axios(options);
@@ -33,6 +48,7 @@ router.get("/", routeName("homepage"), async (req, res) => {
 
     res.render("pages/front-end/index.njk", {
         list_articles: result.data,
+        open_day, // ✅ envoyé au template
     });
 });
 
@@ -82,7 +98,6 @@ router.get("/article/:id", routeName("article_show"), async (req, res) => {
         listErrors = e?.response?.data?.errors || ["Une erreur est survenue"];
     }
 
-    // Si l'article n'existe pas -> on renvoie la vraie 404 du site
     if (!article || !article._id) {
         return res.status(404).render("pages/front-end/404.njk", {
             title: "Article introuvable",
@@ -127,7 +142,5 @@ router.use((req, res) => {
         title: "Page non trouvée",
     });
 });
-
-
 
 export default router;

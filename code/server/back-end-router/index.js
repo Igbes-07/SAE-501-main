@@ -9,6 +9,10 @@ import parseManifest from "#server/utils/parse-manifest.js";
 import SAERouter from "./sae.js";
 import articleRouter from "./article.js";
 import authorsRouter from "./author.js";
+import { router as openDayRouter } from "./open-day.js";
+
+
+
 
 const router = express.Router();
 
@@ -26,6 +30,7 @@ router.use(async (_req, res, next) => {
     next();
 });
 
+router.use("/open-day", openDayRouter);
 router.use(SAERouter);
 router.use(articleRouter);
 router.use(authorsRouter);
