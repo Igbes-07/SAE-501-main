@@ -6,68 +6,79 @@
 {% set articles = list_articles.data or list_articles %}
 
 <section class="grid grid-cols-1 lg:grid-cols-[1fr_24rem] gap-x-6 gap-y-4 mb-6">
-    <h1 class="text-3xl font-bold lg:col-span-2 mt-6 lg:mt-0">
-        Articles sur le BUT MMI
-    </h1>
+  <h1 class="text-3xl font-bold lg:col-span-2 mt-6 lg:mt-0">
+    Articles sur le BUT MMI
+  </h1>
 
-    <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
-        {% if articles and (articles | length) %}
-            {% for article in articles %}
-                <li>
-                    <a
-                        class="flex flex-col sm:max-lg:landscape:flex-row w-full shadow-sm hocus:shadow-xl transition-shadow rounded-lg overflow-hidden"
-                        href="/article/{{ article._id }}"
-                    >
-                        <div class="aspect-25/14 overflow-hidden">
-                            <img
-                                class="object-cover h-full w-full"
-                                src="{{ '/images/image-placeholder-article.png'
-                                    if (not article.image or article.image|length == 0)
-                                    else '/uploads/' ~ article.image }}"
-                                alt="{{ article.title }}"
-                            >
-                        </div>
+  <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
+    {% if articles and (articles | length) %}
+      {% for article in articles %}
+        <li class="shadow-sm hover:shadow-xl transition-shadow rounded-lg overflow-hidden">
+          {# Carte article cliquable #}
+          <a
+            class="flex flex-col sm:max-lg:landscape:flex-row w-full"
+            href="/article/{{ article._id }}"
+          >
+            <div class="aspect-25/14 overflow-hidden">
+              <img
+                class="object-cover h-full w-full"
+                src="{{ '/images/image-placeholder-article.png'
+                    if (not article.image or article.image|length == 0)
+                    else '/uploads/' ~ article.image }}"
+                alt="{{ article.title }}"
+              >
+            </div>
 
-                        <section class="p-8 pb-11">
-                            <h2 class="text-2xl font-bold">{{ article.title }}</h2>
-                            <p>{{ article.abstract or "Cet article n'a pas encore de chapo." }}</p>
-                            <p class="italic text-gray-600 mt-8 text-right">
-                                {% if article.author %}
-                                    Par {{ article.author.firstname }} {{ article.author.lastname }}
-                                {% else %}
-                                    Auteur inconnu
-                                {% endif %}
-                            </p>
-                        </section>
-                    </a>
-                </li>
-            {% endfor %}
-        {% else %}
-            <li>
-                <p>Aucun article actif pour le moment.</p>
-            </li>
-        {% endif %}
-    </ul>
+            <section class="p-8 pb-6">
+              <h2 class="text-2xl font-bold">{{ article.title }}</h2>
+              <p class="mt-2">{{ article.abstract or "Cet article n'a pas encore de chapo." }}</p>
+            </section>
+          </a>
 
-    {% if open_day and open_day.date %}
-    <a
-        class="jpo-banniere rounded-lg overflow-hidden order-first lg:order-none"
-        href="https://www.cyu.fr/formation/construire-son-projet/salons-journee-portes-ouvertes"
-        title="Ouverture dans un nouvel onglet"
-    >
-        <div class="logo">
-            <img src="/images/logo-cyu-blanc.png" width="200" alt="Logo CYU">
-        </div>
-
-        <section class="textes">
-            <p class="text-4xl mb-3">
-                {{ open_day.date | date("dd/LL/yyyy") }},
-                <br>
-                de 10h à 18h
+          {# Ligne auteur (séparée, donc cliquable sans bug) #}
+          <div class="px-8 pb-6">
+            <p class="italic text-gray-600 text-right">
+              {% if article.author %}
+                Par
+                <a
+                  href="/author/{{ article.author._id }}"
+                  class="not-italic font-semibold text-gray-800 hover:underline underline-offset-4"
+                >
+                  {{ article.author.firstname }} {{ article.author.lastname }}
+                </a>
+              {% else %}
+                Auteur inconnu
+              {% endif %}
             </p>
-            <p class="en-savoir-plus">EN SAVOIR PLUS</p>
-        </section>
-    </a>
+          </div>
+        </li>
+      {% endfor %}
+    {% else %}
+      <li>
+        <p>Aucun article actif pour le moment.</p>
+      </li>
     {% endif %}
+  </ul>
+
+  {% if open_day and open_day.date %}
+    <a
+      class="jpo-banniere rounded-lg overflow-hidden order-first lg:order-none"
+      href="https://www.cyu.fr/formation/construire-son-projet/salons-journee-portes-ouvertes"
+      title="Ouverture dans un nouvel onglet"
+    >
+      <div class="logo">
+        <img src="/images/logo-cyu-blanc.png" width="200" alt="Logo CYU">
+      </div>
+
+      <section class="textes">
+        <p class="text-4xl mb-3">
+          {{ open_day.date | date("dd/LL/yyyy") }},
+          <br>
+          de 10h à 18h
+        </p>
+        <p class="en-savoir-plus">EN SAVOIR PLUS</p>
+      </section>
+    </a>
+  {% endif %}
 </section>
 {% endblock %}

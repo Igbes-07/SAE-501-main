@@ -1,0 +1,83 @@
+{% macro table(list) %}
+    <table class="w-full bg-white border-collapse">
+        <thead>
+            <tr class="text-slate-800">
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Titre</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Contenu</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Auteur</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Activé ?</th>
+                <th class="px-6 border-solid border-slate-200 border-b py-3">Actions</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for item in list.data %}
+                <tr class="hover:bg-neutral-50 even:bg-blue-50">
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Titre">{{ item.title }}</td>
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b shadow-transparent lg:hidden xl:[display:revert]" data-label="Contenu">
+                            <p class="line-clamp-3 md:line-clamp-1" title="{{ item.content }}">{{ item.content }}</p>
+                        </td>
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Auteur">
+                        {% if item.author %}
+                            {{ item.author.firstname }} {{ item.author.lastname }}
+                        {% else %}
+                            Inconnu
+                        {% endif %}
+                    </td>
+                   <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Dernière mise à jour"><time datetime="{{ item.updated_at }}">{{ item.updated_at|date("dd/LL/yyyy à HH:mm") }}</time></td>
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6 text-center" data-label="Activé ?">
+                        <label class="inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="toggle-article-status sr-only peer" data-id="{{ item._id }}" {% if item.is_active %}checked{% endif %}>
+                            <div class="relative w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 dark:bg-gray-700 
+                                        peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white 
+                                        after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-gray-300 
+                                        after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 
+                                        peer-checked:bg-blue-600 dark:peer-checked:bg-blue-600"></div>
+                        </label>
+                    </td>
+                     
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b-2 shadow-transparent lg:text-right align-middle">
+                        <div class="inline-flex gap-6 w-full justify-around">
+                            {{ list_actions.edit("article_form" | routeName({ id: item._id })) }}
+                            {{ list_actions.delete(base_url ~ "/api/articles/" ~ item._id, item.title)}}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5" class="text-center bg-transparent border-solid border-slate-200 border-b py-4 px-6">Pas de contenu pour le moment</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelectorAll(".toggle-article-status").forEach(toggle => {
+                toggle.addEventListener("change", async function() {
+                    const articleId = this.dataset.id;
+                    const newStatus = this.checked;
+
+                    try {
+                        const response = await fetch(`/api/articles/${articleId}`, {
+                            method: "PUT",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                            body: JSON.stringify({ is_active: newStatus })
+                        });
+
+                        if (!response.ok) {
+                            alert("Erreur lors de la mise à jour du statut de l'article.");
+                            this.checked = !newStatus;
+                        }
+                    } catch (error) {
+                        console.error("Erreur :", error);
+                        alert("Une erreur est survenue.");
+                        this.checked = !newStatus;
+                    }
+                });
+            });
+        });
+    </script>
+{% endmacro %}
