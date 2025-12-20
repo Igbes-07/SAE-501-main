@@ -25,7 +25,7 @@
         <p class="italic text-gray-600 text-sm">
           {% if article.author %}
             Par
-            <a href="/auteurs/{{ article.author._id }}" class="text-blue-700 hover:underline">
+            <a href="/author/{{ article.author._id }}" class="text-blue-700 hover:underline">
               {{ article.author.firstname }} {{ article.author.lastname }}
             </a>
           {% else %}

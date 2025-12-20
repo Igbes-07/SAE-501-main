@@ -1,0 +1,50 @@
+{% macro table(list) %}
+    <table class="w-full bg-white border-collapse">
+        <thead>
+            <tr class="text-slate-800">
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3 min-w-52">Nom</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Prénom</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Email</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Image</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Bio</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Articles</th>
+                <th class="font-bold px-6 text-left border-solid border-slate-200 border-b py-3">Couleur</th> <!-- Nouvelle colonne -->
+                <th class="px-6 border-solid border-slate-200 border-b py-3"></th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for item in list.data %}
+                <tr class="hover:bg-neutral-50 even:bg-blue-50">
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6 min-w-52" data-label="Nom">{{ item.lastname }}</td>
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Prénom">{{ item.firstname }}</td>
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Email">{{ item.email }}</td>
+                    <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Image">
+                        {% if item.image %}
+                            <img src="/uploads/{{ item.image }}" alt="{{ item.firstname }} {{ item.lastname }}" class="w-16 h-16 rounded-full">
+                        {% endif %}
+                    </td>
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b shadow-transparent" data-label="Bio">
+                        {% if item.bio %}
+                            <p class="line-clamp-2 md:line-clamp-1" title="{{ item.bio }}">{{ item.bio }}</p>
+                        {% endif %}
+                    </td>
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b shadow-transparent" data-label="Articles">{{ item.nb_articles }}</td>
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b shadow-transparent" data-label="Couleur">
+                        <div class="w-8 h-8 rounded-full" style="background-color: {{ item.color }};"></div> <!-- Affichage de la couleur -->
+                    </td>
+                    <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b-2 shadow-transparent lg:text-right align-middle">
+                        <div class="inline-flex gap-6 w-full justify-around">
+                            {{ list_actions.edit("author_form" | routeName({ id: item._id })) }}
+                            {{ list_actions.delete("author_api" | routeName({ id: item._id }), item.lastname) }}
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center bg-transparent border-solid border-slate-200 border-b py-4 px-6">Pas de contenu pour le moment</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endmacro %}
