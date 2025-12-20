@@ -1,66 +1,79 @@
 {% extends "layouts/front-end/base.njk" %}
 {% set bubble_color = "violet" %}
 
-
 {% block main %}
-  <article class="max-w-3xl mx-auto my-8">
-    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+  <article class="max-w-3xl mx-auto my-10 px-4 sm:px-0">
 
-      {# Image de l'article #}
+    {# Image de l'article (sans carte derrière) #}
+    <figure class="mb-6">
       <img
-        class="w-full h-[300px] object-cover"
+        class="w-full h-[340px] sm:h-[420px] object-cover"
         src="{{ '/images/image-placeholder-article.png'
                 if (not article.image or article.image|length == 0)
                 else '/uploads/' ~ article.image }}"
         alt="{{ article.title }}"
       >
+      {% if article.photo_credit %}
+        <figcaption class="mt-2 text-xs text-gray-500 text-center">
+          Crédit photo : {{ article.photo_credit }}
+        </figcaption>
+      {% endif %}
+    </figure>
 
-      <div class="p-6 flex flex-col gap-4">
-        {# Titre #}
-        <h1 class="text-3xl font-bold">
-          {{ article.title }}
-        </h1>
+    {# Header texte #}
+    <header class="pb-6 border-b border-gray-200">
+      <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight text-gray-900">
+        {{ article.title }}
+      </h1>
 
-        {# Auteur #}
-        <p class="italic text-gray-600 text-sm">
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+        <span class="italic">
           {% if article.author %}
             Par
-            <a href="/author/{{ article.author._id }}" class="text-blue-700 hover:underline">
+            <a href="/author/{{ article.author._id }}" class="not-italic font-semibold text-gray-900 hover:underline underline-offset-4">
               {{ article.author.firstname }} {{ article.author.lastname }}
             </a>
           {% else %}
             La rédaction
           {% endif %}
-        </p>
+        </span>
 
-        {# 🟢 CHAPO (abstract) — texte court #}
-        {% if article.abstract %}
-          <p class="text-lg font-medium text-gray-800">
-            {{ article.abstract }}
-          </p>
+        {# Si tu as une date dans ton objet article, elle s’affiche #}
+        {% if article.createdAt %}
+          <span class="text-gray-300">•</span>
+          <time datetime="{{ article.createdAt }}">{{ article.createdAt }}</time>
         {% endif %}
-
-        {# 🔹 Vidéo YouTube (si présente) #}
-        {% if article.yt_video_id %}
-          <section class="mt-4 aspect-video">
-            <iframe
-              class="w-full h-full rounded-lg"
-              src="https://www.youtube.com/embed/{{ article.yt_video_id }}"
-              title="Vidéo associée à l'article"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              referrerpolicy="strict-origin"
-            ></iframe>
-          </section>
-        {% endif %}
-
-        {# 🟣 CONTENU COMPLET #}
-        <div class="prose max-w-none mt-4">
-          {{ article.content | safe }}
-        </div>
       </div>
+
+      {# Chapo (abstract) #}
+      {% if article.abstract %}
+        <p class="mt-5 text-lg sm:text-xl leading-relaxed text-gray-800">
+          {{ article.abstract }}
+        </p>
+      {% endif %}
+    </header>
+
+    {# Vidéo YouTube #}
+    {% if article.yt_video_id %}
+      <section class="mt-8">
+        <div class="aspect-video">
+          <iframe
+            class="w-full h-full"
+            src="https://www.youtube.com/embed/{{ article.yt_video_id }}"
+            title="Vidéo associée à l'article"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin"
+          ></iframe>
+        </div>
+      </section>
+    {% endif %}
+
+    {# Contenu complet #}
+    <div class="prose prose-lg max-w-none mt-8 prose-img:mx-auto prose-img:w-full prose-img:h-auto">
+      {{ article.content | safe }}
     </div>
+
   </article>
 {% endblock %}
-
