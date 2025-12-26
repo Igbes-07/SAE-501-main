@@ -1,0 +1,18 @@
+{% extends "layouts/back-end/base.njk" %}
+
+{% block title %}Messages{% endblock %}
+
+{% import "components/back-end/pagination.njk" as pagination with context %}
+{% import "components/back-end/list-actions.njk" as list_actions %}
+{% set active_menu_item = "messages" %}
+{% block main %}
+    <div class="bg-white rounded-2xl shadow-md pb-6">
+        <header class="p-6">
+            {% include "components/back-end/breadcrumb.njk" %}
+            <h2 class="text-4xl">Messages</h2>
+            <p class="text-sm text-slate-600">
+                Messages reçus depuis la page contact
+            </p>
+        </header>
+    </div>
+{% endblock %}
