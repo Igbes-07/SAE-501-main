@@ -13,45 +13,50 @@
   <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
     {% if articles and (articles | length) %}
       {% for article in articles %}
-        <li class="shadow-sm hover:shadow-xl transition-shadow rounded-lg overflow-hidden">
-          {# Carte article cliquable #}
-          <a
-            class="flex flex-col sm:max-lg:landscape:flex-row w-full"
-            href="/article/{{ article._id }}"
-          >
-            <div class="aspect-25/14 overflow-hidden">
-              <img
-                class="object-cover h-full w-full"
-                src="{{ '/images/image-placeholder-article.png'
-                    if (not article.image or article.image|length == 0)
-                    else '/uploads/' ~ article.image }}"
-                alt="{{ article.title }}"
-              >
-            </div>
+<li class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+  <a
+    class="flex flex-col sm:max-lg:landscape:flex-row w-full"
+    href="/article/{{ article._id }}"
+  >
+    <div class="aspect-25/14 overflow-hidden bg-slate-100">
+      <img
+        class="object-cover h-full w-full"
+        src="{{ '/images/image-placeholder-article.png'
+            if (not article.image or article.image|length == 0)
+            else '/uploads/' ~ article.image }}"
+        alt="{{ article.title }}"
+        loading="lazy"
+      >
+    </div>
 
-            <section class="p-8 pb-6">
-              <h2 class="text-2xl font-bold">{{ article.title }}</h2>
-              <p class="mt-2">{{ article.abstract or "Cet article n'a pas encore de chapo." }}</p>
-            </section>
-          </a>
+    <section class="px-7 py-6 md:px-8 md:py-7 space-y-3">
+      <h2 class="text-[1.35rem] md:text-2xl font-semibold leading-snug text-slate-900">
+        {{ article.title }}
+      </h2>
 
-          {# Ligne auteur (séparée, donc cliquable sans bug) #}
-          <div class="px-8 pb-6">
-            <p class="italic text-gray-600 text-right">
-              {% if article.author %}
-                Par
-                <a
-                  href="/author/{{ article.author._id }}"
-                  class="not-italic font-semibold text-gray-800 hover:underline underline-offset-4"
-                >
-                  {{ article.author.firstname }} {{ article.author.lastname }}
-                </a>
-              {% else %}
-                Auteur inconnu
-              {% endif %}
-            </p>
-          </div>
-        </li>
+      <p class="text-slate-600 text-sm md:text-base leading-relaxed line-clamp-3">
+        {{ article.abstract or "Cet article n'a pas encore de chapo." }}
+      </p>
+    </section>
+  </a>
+
+  <div class="px-7 md:px-8 py-4 border-t border-slate-100">
+    <p class="text-sm text-slate-500 text-right italic">
+      {% if article.author %}
+        Par
+        <a
+          href="/author/{{ article.author._id }}"
+          class="not-italic font-semibold text-slate-800 hover:underline underline-offset-4"
+        >
+          {{ article.author.firstname }} {{ article.author.lastname }}
+        </a>
+      {% else %}
+        Auteur inconnu
+      {% endif %}
+    </p>
+  </div>
+</li>
+
       {% endfor %}
     {% else %}
       <li>

@@ -85,19 +85,32 @@
     <ul class="snap-mandatory snap-x sm:px-0 pb-2 grid sm:grid-cols-2 xl:grid-cols-3 gap-x-3 gap-y-5 my-4 grid-flow-col auto-cols-[92%] sm:max-lg:landscape:grid-cols-none grid-cols-none md:max-lg:landscape:grid-flow-col sm:grid-flow-row overflow-x-auto -mr-4 sm:mr-0">
         {% for item in list_saes.data %}
             <li class="h-full snap-start px-0.5 last:pr-3 sm:max-lg:landscape:h-[65vh] sm:max-lg:landscape:max-h-[300px]">
-                <article class="shadow-sm h-full rounded-lg overflow-hidden flex flex-col sm:max-lg:landscape:flex-row lg:landscape:flex-col">
-                    <div class="h-[300px] lg:h-[325px] sm:max-lg:landscape:h-full aspect-square">
-                        <img class="h-full w-full object-cover" src="{{ 'images/default-sae-image.png' if item.image|length == 0 else '/uploads/' ~ item.image }}" loading="lazy" alt="Projet SAÉ">
-                    </div>
-                    <section class="p-8 pb-10 sm:pb-14 grow">
-                        <p class="text-2xl font-bold pb-2">{{ item.title }}</p>
-                        {% set content = item.content | striptags(true) | escape | nl2br %}
-                        {% if content | length > 0 %}
-                            <p>{{ item.content | striptags(true) | escape | nl2br }}</p>
-                        {% endif %}
-                    </section>
-                </article>
-            </li>
+  <article class="h-full rounded-xl overflow-hidden bg-white shadow-sm border border-slate-100 flex flex-col sm:max-lg:landscape:flex-row lg:landscape:flex-col">
+    <div class="h-[260px] lg:h-[300px] sm:max-lg:landscape:h-full aspect-square bg-slate-100">
+      <img
+        class="h-full w-full object-cover"
+        src="{{ 'images/default-sae-image.png' if item.image|length == 0 else '/uploads/' ~ item.image }}"
+        loading="lazy"
+        alt="Projet SAÉ"
+      >
+    </div>
+
+    {# ✅ intérieur = plus d'air + meilleure typo #}
+    <section class="grow px-6 py-6 md:px-7 md:py-7 space-y-3">
+      <h3 class="text-[1.35rem] leading-snug font-semibold text-slate-900">
+        {{ item.title }}
+      </h3>
+
+      {% set content = item.content | striptags(true) | escape %}
+      {% if content | length > 0 %}
+        <p class="text-sm md:text-[0.95rem] leading-relaxed text-slate-600 line-clamp-4">
+          {{ content }}
+        </p>
+      {% endif %}
+    </section>
+  </article>
+</li>
+    
         {% endfor %}
     </ul>
 {% endblock %}

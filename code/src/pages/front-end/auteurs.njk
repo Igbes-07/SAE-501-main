@@ -10,103 +10,112 @@
 {% endblock %}
 
 {% block main %}
-<div class="min-h-screen">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
+  <div class="min-h-screen">
+    <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-    {# Header auteur (ne force pas le dark) #}
-    <header class="pb-8 border-b border-slate-200">
-      <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Auteur</p>
+      {% if not author %}
+        <section class="py-10">
+          <h1 class="text-3xl font-bold text-slate-900">Auteur introuvable</h1>
+          <p class="mt-2 text-slate-600">Impossible de trouver cet auteur.</p>
+        </section>
+      {% else %}
 
-      <div class="mt-3 flex items-start justify-between gap-6">
-        <div class="flex items-start gap-5">
-          {# Image auteur ajoutée #}
-          <div class="shrink-0">
-            <img
-              class="w-16 h-16 object-cover rounded-full"
-              src="{{ '/images/image-placeholder-author.png'
-                      if (not author.image or author.image|length == 0)
-                      else '/uploads/' ~ author.image }}"
-              alt="{{ author.firstname }} {{ author.lastname }}"
-            >
-          </div>
+        {% set articles = author.list_articles or author.articles or [] %}
 
-          <div>
-            <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight text-slate-900">
-              {% if author %}{{ author.firstname }} {{ author.lastname }}{% else %}Auteur introuvable{% endif %}
-            </h1>
+{# =========================
+   HERO AUTEUR (clean, sans bouton)
+========================== #}
+<header class="py-6 border-b border-slate-200">
+  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-6">
 
-            {% if author and author.role %}
-              <p class="mt-2 text-slate-600">{{ author.role }}</p>
-            {% endif %}
+    <div class="flex items-start gap-5">
+      <img
+        class="w-20 h-20 sm:w-24 sm:h-24 object-cover rounded-2xl ring-1 ring-slate-200 bg-transparent"
+        src="{{ '/images/image-placeholder-author.png'
+                if (not author.image or author.image|length == 0)
+                else '/uploads/' ~ author.image }}"
+        alt="{{ author.firstname }} {{ author.lastname }}"
+        loading="lazy"
+      >
 
-            {% if author and author.bio %}
-              <p class="mt-4 max-w-2xl text-sm leading-relaxed text-slate-600">
-                {{ author.bio }}
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.22em] text-slate-500">Auteur</p>
+
+        <h1 class="mt-2 text-3xl sm:text-4xl font-extrabold leading-tight text-slate-900">
+          {{ author.firstname }} {{ author.lastname }}
+        </h1>
+
+        {% if author.role %}
+          <p class="mt-2 text-slate-600">{{ author.role }}</p>
+        {% endif %}
+
+        {% if author.bio %}
+          <p class="mt-4 max-w-3xl text-sm sm:text-base leading-relaxed text-slate-600">
+            {{ author.bio }}
+          </p>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="sm:text-right">
+      <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Articles</p>
+      <p class="mt-1 text-2xl font-extrabold text-slate-900 leading-none">
+        {{ articles | length }}
+      </p>
+    </div>
+
+  </div>
+</header>
+
+
+
+
+        {# =========================
+           LISTE ARTICLES (grille moderne)
+        ========================== #}
+        <section class="mt-10">
+          <div class="flex items-end justify-between gap-6">
+            <div>
+              <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Publications</p>
+              <h2 class="mt-2 text-xl sm:text-2xl font-extrabold text-slate-900">
+                Articles de {{ author.firstname }}
+              </h2>
+            </div>
+
+            {% if articles and (articles | length) %}
+              <p class="text-sm text-slate-500">
+                {{ articles | length }} article{% if (articles | length) > 1 %}s{% endif %}
               </p>
             {% endif %}
           </div>
-        </div>
-      </div>
-    </header>
-
-    {% if not author %}
-      <section class="py-10">
-        <p class="text-slate-600">Impossible de trouver cet auteur.</p>
-      </section>
-    {% else %}
-
-      {% set articles = author.list_articles or author.articles or [] %}
-
-      <section class="mt-8">
-
-        <div class="flex items-end justify-between gap-6">
-          <div>
-            <p class="text-xs uppercase tracking-[0.2em] text-slate-500">Posts</p>
-            <h2 class="mt-2 text-xl font-extrabold text-slate-900">
-              Articles de cet auteur
-            </h2>
-          </div>
 
           {% if articles and (articles | length) %}
-            <p class="text-sm text-slate-500">
-              {{ articles | length }} post{% if (articles | length) > 1 %}s{% endif %}
-            </p>
-          {% endif %}
-        </div>
-
-        <div class="mt-6 border-t border-slate-200">
-          {% if articles and (articles | length) %}
-            <ol class="divide-y divide-slate-200">
-
+            <ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {% for art in articles %}
-                <li class="py-8">
-                  <article class="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+                <li>
+                  <article class="group h-full rounded-2xl overflow-hidden bg-white border border-slate-100 shadow-sm hover:shadow-lg transition-shadow">
+                    <a href="/article/{{ art._id }}" class="block">
+                      <div class="aspect-[16/10] bg-slate-100 overflow-hidden">
+                        <img
+                          class="w-full h-full object-cover group-hover:scale-[1.02] transition-transform duration-300"
+                          src="{{ '/images/image-placeholder-article.png'
+                                  if (not art.image or art.image|length == 0)
+                                  else '/uploads/' ~ art.image }}"
+                          alt="{{ art.title }}"
+                          loading="lazy"
+                        >
+                      </div>
 
-                    {# Image gauche (SANS bord arrondi, sans cadre blanc) #}
-                    <a href="/article/{{ art._id }}" class="md:col-span-6 block">
-                      <img
-                        class="w-full h-64 md:h-full object-cover"
-                        src="{{ '/images/image-placeholder-article.png'
-                                if (not art.image or art.image|length == 0)
-                                else '/uploads/' ~ art.image }}"
-                        alt="{{ art.title }}"
-                      >
-                    </a>
-
-                    {# Texte droite #}
-                    <div class="md:col-span-6 flex flex-col justify-between">
-                      <div>
+                      <div class="px-6 py-5 space-y-3">
                         <p class="text-xs uppercase tracking-[0.2em] text-slate-500">
                           {% if art.category %}{{ art.category }}{% else %}Actualité{% endif %}
                         </p>
 
-                        <a href="/article/{{ art._id }}" class="group block">
-                          <h3 class="mt-3 text-2xl font-extrabold leading-snug text-slate-900 group-hover:underline underline-offset-4">
-                            {{ art.title }}
-                          </h3>
-                        </a>
+                        <h3 class="text-lg font-semibold leading-snug text-slate-900">
+                          {{ art.title }}
+                        </h3>
 
-                        <p class="mt-4 text-sm leading-relaxed text-slate-600">
+                        <p class="text-sm leading-relaxed text-slate-600">
                           {% if art.abstract %}
                             {{ art.abstract }}
                           {% else %}
@@ -114,41 +123,35 @@
                           {% endif %}
                         </p>
                       </div>
+                    </a>
 
-                      {# Meta en bas #}
-                      <div class="mt-6 flex flex-wrap items-center gap-3 text-xs text-slate-500">
-                        <span class="font-semibold text-slate-900">
-                          by {{ author.firstname }} {{ author.lastname }}
-                        </span>
+                    <div class="px-6 pb-5 pt-0 flex items-center justify-between text-xs text-slate-500">
+                      <span class="font-semibold text-slate-900">
+                        {{ author.firstname }} {{ author.lastname }}
+                      </span>
 
-                        <span class="text-slate-300">•</span>
-
-                        <span>
-                          {% if art.createdAt %}
-                            {{ art.createdAt }}
-                          {% elif art.date %}
-                            {{ art.date }}
-                          {% else %}
-                            —
-                          {% endif %}
-                        </span>
-                      </div>
+                      <span>
+                        {% if art.createdAt %}
+                          {{ art.createdAt }}
+                        {% elif art.date %}
+                          {{ art.date }}
+                        {% else %}
+                          —
+                        {% endif %}
+                      </span>
                     </div>
-
                   </article>
                 </li>
               {% endfor %}
-
-            </ol>
+            </ul>
           {% else %}
-            <div class="py-10">
+            <div class="mt-6 rounded-2xl border border-slate-100 bg-white p-8 text-center">
               <p class="text-slate-600">Cet auteur n’a pas encore d’articles.</p>
             </div>
           {% endif %}
-        </div>
+        </section>
 
-      </section>
-    {% endif %}
+      {% endif %}
+    </div>
   </div>
-</div>
 {% endblock %}

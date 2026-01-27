@@ -70,10 +70,11 @@
       </section>
     {% endif %}
 
-    {# Contenu complet #}
-    <div class="prose prose-lg max-w-none mt-8 prose-img:mx-auto prose-img:w-full prose-img:h-auto">
-      {{ article.content | safe }}
-    </div>
+<div class="mt-8 text-base sm:text-lg leading-relaxed text-gray-900 [&_p]:mb-4">
+  {{ article.content | safe }}
+</div>
+
+
 
   </article>
 {% endblock %}
