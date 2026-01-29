@@ -1,45 +1,42 @@
 import mongoose, { Schema } from "mongoose";
-import isEmail from "validator/lib/isEmail";
+import validator from "validator";
 import { errorRequiredMessage } from "#database/error-messages.js";
 
-const messageSchema = new Schema({
-    lastname: {
-        type: String,
-        required: [
-            true,
-            errorRequiredMessage("un titre"),
-        ],
-        trim: true,
+const messageSchema = new Schema(
+    {
+        firstName: {
+            type: String,
+            required: [true, errorRequiredMessage("un prénom")],
+            trim: true,
+        },
+        lastName: {
+            type: String,
+            required: [true, errorRequiredMessage("un nom")],
+            trim: true,
+        },
+        message: {
+            type: String,
+            required: [true, errorRequiredMessage("un message")],
+            maxlength: [200, 'Le champ "message" ne peut pas dépasser 200 caractères'],
+            trim: true,
+        },
+        email: {
+            type: String,
+            required: [true, errorRequiredMessage("un email")],
+            trim: true,
+            lowercase: true,
+            validate: {
+                validator: (v) => validator.isEmail(v || ""),
+                message: "Veuillez mettre un email valide.",
+            },
+        },
+        je_suis: {
+            type: String,
+            enum: ["non_precise", "etudiant", "parent", "autre"],
+            default: "non_precise",
+        },
     },
-    firstname: {
-        type: String,
-        required: [
-            true,
-            errorRequiredMessage("un titre"),
-        ],
-        trim: true,
-    },
-    content: {
-        type: String,
-        maxlength: [
-            200,
-            'Le champ "contenu" ne peut pas dépasser 200 caractères',
-        ],
-        trim: true,
-    },
-    email: {
-        type: String,
-        required: [
-            true, errorRequiredMessage("un email"), 
-        ],
-        validate: [isEmail, "Veuillez mettre un email valide."],
-        trim: true,
-    },
-    identity: {
-        type: String,
-        enum: ["non_precise", "etudiant", "autre", "parent"],
-        default: "non_precise",
-    },
-});
+    { timestamps: true }
+);
 
-export default mongoose.model("Message", messageSchema); 
+export default mongoose.model("Message", messageSchema);
