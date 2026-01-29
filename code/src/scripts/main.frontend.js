@@ -3,6 +3,8 @@ import "/src/styles/hero.css";
 import "/src/styles/index.css";
 import "/src/styles/tailwind.css";
 import "/src/styles/scroll-shadow.css";
+import "./async-form.js";
+
 import axios from "axios";
 
 

@@ -1,0 +1,70 @@
+{% extends "layouts/back-end/base.njk" %}
+{% set active_menu_item = "messages" %}
+
+{% import "components/back-end/pagination.njk" as pagination with context %}
+{% import "components/back-end/list-actions.njk" as list_actions %}
+
+{% block title %}Messages{% endblock %}
+
+{% block main %}
+    <div class="bg-white rounded-2xl shadow-md pb-6">
+        <header class="mb-1 p-6 flex justify-between gap-2 lg:flex-row flex-col">
+            <div>
+                {% include "components/back-end/breadcrumb.njk" %}
+                <h2 class="text-4xl">Liste des Messages</h2>
+                <p class="text-sm">{{ list_messages.count }} éléments au total</p>
+            </div>
+        </header>
+
+        {% if messages.success %}
+            <div class="px-6">
+                <p class="rounded-lg p-3 bg-green-100 text-green-800 border-solid border border-green-700 mb-3">{{ messages.success }}</p>
+            </div>
+        {% endif %}
+
+        <table class="w-full bg-white border-collapse">
+            <thead>
+                <tr class="text-slate-800">
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Prénom</th>
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Nom</th>
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Email</th>
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Message</th>
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Statut</th>
+                    <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">Date de création</th>
+                    <th class="px-6 py-3 border-solid border-slate-200 border-b"></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in list_messages.data %}
+                    <tr class="hover:bg-neutral-50 even:bg-blue-50">
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">
+                            <a href="{{ admin_url }}/messages/{{ message._id }}" class="text-blue-700 hover:text-blue-900">
+                                {{ message.firstName }}
+                            </a>
+                        </td>
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">{{ message.lastName }}</td>
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">{{ message.email }}</td>
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">
+                            <p class="line-clamp-2" title="{{ message.message }}">{{ message.message }}</p>
+
+                        </td>
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">{{ message.je_suis or message.identity }}</td>
+                        <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b">
+                            {{ message.createdAt | date("DD/MM HH:mm") }}
+
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6" class="text-center bg-transparent border-solid border-slate-200 border-b py-4 px-6">Pas de messages pour le moment</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <footer class="flex justify-between px-4 flex-col @3xl/main:flex-row relative items-center">
+            {{ pagination.item(list_messages) }}
+        </footer>
+    </div>
+{% endblock %}
+
