@@ -16,10 +16,10 @@
             "name": "SUR LES MÉDIAS",
             "link": "/sur-les-medias"
         },
-      {
-      "name": "CONTACT",
-      "link": "/contact"
-    }
+        {
+        "name": "CONTACT",
+        "link": "/contact"
+        }
     ]
 }
   

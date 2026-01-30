@@ -6,10 +6,18 @@ const hide = (el) => el && el.classList.add("hidden");
 
 const setFeedback = (el, message, variant) => {
     if (!el) return;
+
     el.textContent = message;
-    el.className ="mt-3 text-sm " + (variant === "success" ? "text-green-600" : "text-red-600");
+    el.className
+        = "mt-3 text-sm "
+            + (
+                variant === "success"
+                    ? "text-green-600"
+                    : "text-red-600"
+            );
     el.classList.remove("hidden");
 };
+
 
 const submitForm = async (e) => {
     e.preventDefault();
@@ -68,9 +76,8 @@ const submitForm = async (e) => {
         form.reset();
         setFeedback(feedback, "Message envoyé ✅", "success");
     } catch (err) {
-        const apiMsg =
-            err?.response?.data?.errors?.[0] ||
-            "Erreur lors de l’envoi du message ❌";
+        const apiMsg = err?.response?.data?.errors?.[0]
+            || "Erreur lors de l’envoi du message ❌";
         setFeedback(feedback, apiMsg, "error");
     } finally {
         if (submitBtn) submitBtn.disabled = false;

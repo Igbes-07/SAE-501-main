@@ -81,6 +81,7 @@ router.get(`/${base}`, async (req, res) => {
                     bio: 1,
                     email: 1,
                     nb_articles: { $size: "$list_articles" },
+                    color: 1,
                 },
             },
         ]);
