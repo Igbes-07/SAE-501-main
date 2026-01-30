@@ -24,7 +24,7 @@ router.use(async (_req, res, next) => {
     next();
 });
 
-// ✅ HOME — lecture dynamique de open-day.json
+// ✅ HOME — lecture dynamique de open-day.json + pagination
 router.get("/", routeName("homepage"), async (req, res) => {
     let open_day = null;
 
@@ -35,22 +35,35 @@ router.get("/", routeName("homepage"), async (req, res) => {
         console.error("Erreur lecture open-day.json :", err);
     }
 
-    const queryParams = new URLSearchParams(req.query).toString();
+    // ✅ pagination
+    const page = Math.max(1, parseInt(req.query.page || "1", 10));
+    const per_page = 6;
+
+    // ✅ on reconstruit proprement les query params
+    const params = new URLSearchParams(req.query);
+    params.set("page", page);
+    params.set("per_page", per_page);
+    params.set("is_active", "true");
+
     const options = {
         method: "GET",
-        url: `${res.locals.base_url}/api/articles?${queryParams}&is_active=true`,
+        url: `${res.locals.base_url}/api/articles?${params.toString()}`,
     };
 
-    let result = {};
+    let result = { data: { data: [], page: 1, total_pages: 1, count: 0 } };
+
     try {
         result = await axios(options);
-    } catch (_error) {}
+    } catch (e) {
+        console.error("Erreur API articles :", e?.response?.data || e.message);
+    }
 
     res.render("pages/front-end/index.njk", {
         list_articles: result.data,
-        open_day, // ✅ envoyé au template
+        open_day,
     });
 });
+
 
 // "(.html)?" makes ".html" optional in the url
 router.get("/a-propos(.html)?", routeName("about"), async (_req, res) => {
