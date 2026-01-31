@@ -41,8 +41,8 @@ router.get("/", routeName("homepage"), async (req, res) => {
 
     // ✅ on reconstruit proprement les query params
     const params = new URLSearchParams(req.query);
-    params.set("page", page);
-    params.set("per_page", per_page);
+    params.set("page", String(page));
+    params.set("per_page", String(per_page));
     params.set("is_active", "true");
 
     const options = {
@@ -50,17 +50,18 @@ router.get("/", routeName("homepage"), async (req, res) => {
         url: `${res.locals.base_url}/api/articles?${params.toString()}`,
     };
 
-    let result = { data: { data: [], page: 1, total_pages: 1, count: 0 } };
+    let data = { data: [], page: 1, total_pages: 1, count: 0 };
 
     try {
-        result = await axios(options);
+        const result = await axios(options);
+        data = result.data;
     } catch (e) {
         console.error("Erreur API articles :", e?.response?.data || e.message);
     }
 
     res.render("pages/front-end/index.njk", {
-        list_articles: result.data,
-        open_day,
+        list_articles: data,
+        open_day, // ✅ envoyé au template
     });
 });
 

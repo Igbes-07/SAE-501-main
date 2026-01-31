@@ -19,10 +19,7 @@
       {% if articles and (articles | length) %}
         {% for article in articles %}
           <li class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
-            <a
-              class="flex flex-col sm:max-lg:landscape:flex-row w-full"
-              href="/article/{{ article._id }}"
-            >
+            <a class="flex flex-col sm:max-lg:landscape:flex-row w-full" href="/article/{{ article._id }}">
               <div class="aspect-25/14 overflow-hidden bg-slate-100">
                 <img
                   class="object-cover h-full w-full"
@@ -51,10 +48,12 @@
                   Par
                   <a
                     href="/author/{{ article.author._id }}"
-                    class="not-italic font-semibold text-slate-800 hover:underline underline-offset-4"
+                    class="not-italic font-semibold text-slate-800 hocus:underline underline-offset-4
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded-sm"
                   >
                     {{ article.author.firstname }} {{ article.author.lastname }}
                   </a>
+
                 {% else %}
                   Auteur inconnu
                 {% endif %}
@@ -93,10 +92,33 @@
 
   {# =========================
      PAGINATION (articles home)
+     - Mobile: select déroulant (interactif)
+     - Desktop: boutons
      ========================= #}
   {% if total_pages > 1 %}
-    <nav class="mt-10 flex items-center justify-center gap-2" aria-label="Pagination">
-      
+
+    {# ✅ MOBILE: liste déroulante #}
+    <div class="mt-10 flex flex-col items-center gap-2 sm:hidden">
+      <label for="select-page-home" class="text-sm text-slate-600">
+        Aller à la page :
+      </label>
+
+      <select
+        id="select-page-home"
+        class="w-full max-w-xs rounded-lg border border-slate-300 bg-white px-3 py-2"
+        data-paginator="home"
+      >
+        {% for p in range(1, total_pages + 1) %}
+          <option value="{{ p }}" {{ "selected" if p == page else "" }}>
+            Page {{ p }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {# ✅ DESKTOP/TABLETTE: boutons #}
+    <nav class="mt-10 hidden sm:flex items-center justify-center gap-2" aria-label="Pagination">
+
       {# Précédent #}
       {% if page > 1 %}
         <a
@@ -141,5 +163,20 @@
         </span>
       {% endif %}
     </nav>
+
+    {# ✅ JS POUR QUE LE SELECT MOBILE MARCHE #}
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const select = document.querySelector('select[data-paginator="home"]');
+        if (!select) return;
+
+        select.addEventListener("change", () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("page", select.value);
+          window.location.href = url.toString();
+        });
+      });
+    </script>
+
   {% endif %}
 {% endblock %}
