@@ -31,9 +31,11 @@
           {% if article.author %}
             Par
             <a href="/author/{{ article.author._id }}"
-               class="not-italic font-semibold text-gray-900 hover:underline underline-offset-4">
+              class="not-italic font-semibold text-gray-900 hocus:underline underline-offset-4
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded-sm">
               {{ article.author.firstname }} {{ article.author.lastname }}
             </a>
+
           {% else %}
             La rédaction
           {% endif %}
