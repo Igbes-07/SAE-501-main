@@ -344,6 +344,12 @@ app.use(async (err, req, res, _next) => {
     res.render("pages/error.njk", response);
 });
 
+    app.use((req, res) => {
+    res.status(404).render("pages/front-end/404.njk", {
+        title: "Page non trouvée",
+    });
+    });
+
 const nunjucksEnv = nunjucks.configure(app.get("views"), {
     autoescape: true,
     express: app,
