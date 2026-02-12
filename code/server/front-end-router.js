@@ -150,11 +150,5 @@ router.get("/author/:id", routeName("author"), async (req, res) => {
         list_errors: listErrors,
     });
 });
-// Doit être la DERNIÈRE route
-router.use((req, res) => {
-    res.status(404).render("pages/front-end/404.njk", {
-        title: "Page non trouvée",
-    });
-});
 
 export default router;
