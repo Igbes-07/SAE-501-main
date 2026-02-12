@@ -44,7 +44,16 @@
 <nav class="self-start w-full bg-white rounded-2xl flex-initial shadow-md static xl:sticky md:portrait:sticky md:top-5 basis-[min-content]" role="navigation" aria-label="Menu principal">
     <header>
         <h1 class="text-center mx-8 md:text-left md:mr-[6.5rem] md:ml-5 pt-6 pb-4 text-xl">
-            <a href="{{ admin_url }}" class="font-bold bg-linear-to-b from-blue-900 to-slate-900 bg-clip-text text-transparent hocus:from-blue-600 hocus:to-slate-600">
+<a href="{{ admin_url }}" class="
+font-bold 
+bg-linear-to-b 
+from-blue-900 to-slate-900 
+theme-red:from-red-900 theme-red:to-red-700
+theme-green:from-green-900 theme-green:to-green-700
+theme-purple:from-purple-900 theme-purple:to-purple-700
+theme-orange:from-orange-900 theme-orange:to-orange-700
+bg-clip-text text-transparent
+">
                 Administration SAÉ 501
             </a>
         </h1>
@@ -57,7 +66,8 @@
                     href="{{ item.link }}"
                     class="
                         {{ 'bg-yellow-100' if loop.last and NODE_ENV == "development" else "" }}
-                        {{ 'bg-blue-50 font-bold' if (active_menu_item == item.key) else "" }}
+                        {# ON GARDE bg-blue-50 ET font-bold : le JS s'en servira de repère #}
+                        {{ 'bg-blue-50 font-bold active-link' if (active_menu_item == item.key) else "" }}
                         px-4 py-3 rounded-lg flex items-center my-1 mx-2 text-base hocus:bg-blue-100 whitespace-nowrap
                         md:justify-start
                         justify-center
@@ -68,28 +78,39 @@
             </li>
         {% endfor %}
     </ul>
-        </ul>
 
-    <!-- Sélecteur de thème admin -->
-   <div class="px-4 pb-4 mt-4 border-t border-gray-200">
-    <p class="text-sm font-medium mb-2">Thème de l’admin</p>
-    <div class="flex gap-2 flex-wrap">
-        <button data-theme="blue" class="w-6 h-6 rounded-full bg-blue-500"></button>
-        <button data-theme="green" class="w-6 h-6 rounded-full bg-green-500"></button>
-        <button data-theme="red" class="w-6 h-6 rounded-full bg-red-500"></button>
-        <button data-theme="purple" class="w-6 h-6 rounded-full bg-purple-500"></button>
-        <button data-theme="orange" class="w-6 h-6 rounded-full bg-orange-500"></button>
-        <button data-theme="pink" class="w-6 h-6 rounded-full bg-pink-500"></button>
-        <button data-theme="teal" class="w-6 h-6 rounded-full bg-teal-500"></button>
-        <button data-theme="indigo" class="w-6 h-6 rounded-full bg-indigo-500"></button>
-        <button data-theme="yellow" class="w-6 h-6 rounded-full bg-yellow-500"></button>
-        <button data-theme="cyan" class="w-6 h-6 rounded-full bg-cyan-500"></button>
-        <button data-theme="lime" class="w-6 h-6 rounded-full bg-lime-500"></button>
-        <button data-theme="amber" class="w-6 h-6 rounded-full bg-amber-500"></button>
-        <button data-theme="rose" class="w-6 h-6 rounded-full bg-rose-500"></button>
-        <button data-theme="orange-600" class="w-6 h-6 rounded-full bg-orange-600"></button>
-    </div></div>
-
-
-
+    <div class="px-4 pb-4 mt-4 border-t border-gray-200">
+    <p class="text-sm font-medium mb-3 mt-2 text-gray-600 text-center md:text-left">Personnaliser l'administration</p>
+    <div class="grid grid-cols-7 gap-2">
+        
+<button data-theme="black" class="w-6 h-6 rounded-full bg-black"></button>
+<button data-theme="slate" class="w-6 h-6 rounded-full bg-slate-600"></button>
+<button data-theme="zinc" class="w-6 h-6 rounded-full bg-zinc-600"></button>
+<button data-theme="gray" class="w-6 h-6 rounded-full bg-gray-600"></button>
+<button data-theme="neutral" class="w-6 h-6 rounded-full bg-neutral-600"></button>
+<button data-theme="stone" class="w-6 h-6 rounded-full bg-stone-600"></button>
+<button data-theme="blue-900" class="w-6 h-6 rounded-full bg-blue-900"></button>
+<button data-theme="indigo" class="w-6 h-6 rounded-full bg-indigo-500"></button>
+<button data-theme="blue" class="w-6 h-6 rounded-full bg-blue-500"></button>
+<button data-theme="sky" class="w-6 h-6 rounded-full bg-sky-500"></button>
+<button data-theme="cyan" class="w-6 h-6 rounded-full bg-cyan-500"></button>
+<button data-theme="teal" class="w-6 h-6 rounded-full bg-teal-500"></button>
+<button data-theme="green-900" class="w-6 h-6 rounded-full bg-green-900"></button>
+<button data-theme="emerald" class="w-6 h-6 rounded-full bg-emerald-500"></button>
+<button data-theme="green" class="w-6 h-6 rounded-full bg-green-500"></button>
+<button data-theme="lime" class="w-6 h-6 rounded-full bg-lime-500"></button>
+<button data-theme="purple-900" class="w-6 h-6 rounded-full bg-purple-900"></button>
+<button data-theme="violet" class="w-6 h-6 rounded-full bg-violet-600"></button>
+<button data-theme="purple" class="w-6 h-6 rounded-full bg-purple-500"></button>
+<button data-theme="fuchsia" class="w-6 h-6 rounded-full bg-fuchsia-500"></button>
+<button data-theme="pink" class="w-6 h-6 rounded-full bg-pink-500"></button>
+<button data-theme="rose" class="w-6 h-6 rounded-full bg-rose-500"></button>
+<button data-theme="red-900" class="w-6 h-6 rounded-full bg-red-900"></button>
+<button data-theme="red" class="w-6 h-6 rounded-full bg-red-500"></button>
+<button data-theme="orange-600" class="w-6 h-6 rounded-full bg-orange-600"></button>
+<button data-theme="orange" class="w-6 h-6 rounded-full bg-orange-500"></button>
+<button data-theme="amber" class="w-6 h-6 rounded-full bg-amber-500"></button>
+<button data-theme="yellow" class="w-6 h-6 rounded-full bg-yellow-500"></button>
+    </div>
+</div>
 </nav>
