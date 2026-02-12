@@ -1,0 +1,64 @@
+{% extends "layouts/back-end/base.njk" %}
+{% set active_menu_item = "messages" %}
+
+{% block title %}Message de {{ message.firstName }} {{ message.lastName }}{% endblock %}
+
+{% block main %}
+    <div class="bg-white rounded-2xl shadow-md pb-6">
+        <header class="mb-1 p-6">
+            {% include "components/back-end/breadcrumb.njk" %}
+            <h2 class="text-4xl mb-2">Message de {{ message.firstName }} {{ message.lastName }}</h2>
+            <p class="text-sm text-gray-500">Reçu le {{ message.created_at | date("dd/LL/yyyy à HH:mm") }}</p>
+        </header>
+
+        <div class="px-6">
+            <div class="mb-6">
+                <h3 class="font-bold text-lg mb-2">Informations de contact</h3>
+                <dl class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <dt class="font-medium text-gray-500">Nom complet</dt>
+                        <dd>{{ message.firstName }} {{ message.lastName }}</dd>
+                    </div>
+                    <div>
+                        <dt class="font-medium text-gray-500">Email</dt>
+                        <dd>
+                            <a href="mailto:{{ message.email }}" class="text-blue-700 hover:text-blue-900">
+                                {{ message.email }}
+                            </a>
+                        </dd>
+                    </div>
+                    <div>
+                        <dt class="font-medium text-gray-500">Statut</dt>
+                        <dd>
+                            {% if message.identity == "etudiant" %}
+                                Étudiant(e)
+                            {% elif message.identity == "parent" %}
+                                Parent
+                            {% elif message.identity == "autre" %}
+                                Autre
+                            {% else %}
+                                Non précisé
+                            {% endif %}
+                        </dd>
+                    </div>
+                </dl>
+            </div>
+
+            <div>
+                <h3 class="font-bold text-lg mb-2">Message</h3>
+                <div class="bg-gray-50 p-4 rounded-lg">
+                    {{ message.content | nl2br }}
+                </div>
+            </div>
+
+            <footer class="mt-6 flex justify-end">
+                <a href="{{ admin_url }}/messages" class="inline-flex items-center gap-2 text-blue-700 hover:text-blue-900">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                    </svg>
+                    Retour à la liste
+                </a>
+            </footer>
+        </div>
+    </div>
+{% endblock %} 

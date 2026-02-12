@@ -1,71 +1,182 @@
 {% extends "layouts/front-end/base.njk" %}
+{% set bubble_color = "rose" %}
+{% set current_page = "/" %}
 
 {% block main %}
-{% set articles = list_articles.data or list_articles %}
+  {# articles: parfois list_articles = array, parfois {data:[], page:...} #}
+  {% set articles = list_articles.data or list_articles %}
 
-<section class="grid grid-cols-1 lg:grid-cols-[1fr_24rem] gap-x-6 gap-y-4 mb-6">
+  {# pagination: fallback si pas fourni #}
+  {% set page = list_articles.page or 1 %}
+  {% set total_pages = list_articles.total_pages or 1 %}
+
+  <section class="grid grid-cols-1 lg:grid-cols-[1fr_24rem] gap-x-6 gap-y-4 mb-6">
     <h1 class="text-3xl font-bold lg:col-span-2 mt-6 lg:mt-0">
-        Articles sur le BUT MMI
+      Articles sur le BUT MMI
     </h1>
 
     <ul class="flex md:flex-row sm:landscape:flex-col flex-col lg:flex-col gap-6">
-        {% if articles and (articles | length) %}
-            {% for article in articles %}
-                <li>
-                    <a
-                        class="flex flex-col sm:max-lg:landscape:flex-row w-full shadow-sm hocus:shadow-xl transition-shadow rounded-lg overflow-hidden"
-                        href="/article/{{ article._id }}"
-                    >
-                        <div class="aspect-25/14 overflow-hidden">
-                            <img
-                                class="object-cover h-full w-full"
-                                src="{{ '/images/image-placeholder-article.png'
-                                    if (not article.image or article.image | length == 0)
-                                    else '/uploads/' ~ article.image }}"
-                                alt="{{ article.title }}"
-                            >
-                        </div>
+      {% if articles and (articles | length) %}
+        {% for article in articles %}
+          <li class="bg-white border border-slate-100 rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow">
+            <a class="flex flex-col sm:max-lg:landscape:flex-row w-full" href="/article/{{ article._id }}">
+              <div class="aspect-25/14 overflow-hidden bg-slate-100">
+                <img
+                  class="object-cover h-full w-full"
+                  src="{{ '/images/image-placeholder-article.png'
+                      if (not article.image or article.image|length == 0)
+                      else '/uploads/' ~ article.image }}"
+                  alt="{{ article.title }}"
+                  loading="lazy"
+                >
+              </div>
 
-                        <section class="p-8 pb-11">
-                            <h2 class="text-2xl font-bold">{{ article.title }}</h2>
-                            <p>{{ article.abstract or "Cet article n'a pas encore de chapo." }}</p>
-                            <p class="italic text-gray-600 mt-8 text-right">
-                                {% if article.author %}
-                                    Par {{ article.author.name }}
-                                {% else %}
-                                    Auteur inconnu
-                                {% endif %}
-                            </p>
-                        </section>
-                    </a>
-                </li>
-            {% endfor %}
-        {% else %}
-            <li>
-                <p>Aucun article actif pour le moment.</p>
-            </li>
-        {% endif %}
+              <section class="px-7 py-6 md:px-8 md:py-7 space-y-3">
+                <h2 class="text-[1.35rem] md:text-2xl font-semibold leading-snug text-slate-900">
+                  {{ article.title }}
+                </h2>
+
+                <p class="text-slate-600 text-sm md:text-base leading-relaxed line-clamp-3">
+                  {{ article.abstract or "Cet article n'a pas encore de chapo." }}
+                </p>
+              </section>
+            </a>
+
+            <div class="px-7 md:px-8 py-4 border-t border-slate-100">
+              <p class="text-sm text-slate-500 text-right italic">
+                {% if article.author %}
+                  Par
+                  <a
+                    href="/author/{{ article.author._id }}"
+                    class="not-italic font-semibold text-slate-800 hocus:underline underline-offset-4
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded-sm"
+                  >
+                    {{ article.author.firstname }} {{ article.author.lastname }}
+                  </a>
+
+                {% else %}
+                  Auteur inconnu
+                {% endif %}
+              </p>
+            </div>
+          </li>
+        {% endfor %}
+      {% else %}
+        <li>
+          <p>Aucun article actif pour le moment.</p>
+        </li>
+      {% endif %}
     </ul>
 
     {% if open_day and open_day.date %}
-    <a
+      <a
         class="jpo-banniere rounded-lg overflow-hidden order-first lg:order-none"
         href="https://www.cyu.fr/formation/construire-son-projet/salons-journee-portes-ouvertes"
         title="Ouverture dans un nouvel onglet"
-    >
+      >
         <div class="logo">
-            <img src="/images/logo-cyu-blanc.png" width="200" alt="Logo CYU">
+          <img src="/images/logo-cyu-blanc.png" width="200" alt="Logo CYU">
         </div>
 
         <section class="textes">
-            <p class="text-4xl mb-3">
-                {{ open_day.date | date("dd/LL/yyyy") }},
-                <br>
-                de 10h à 18h
-            </p>
-            <p class="en-savoir-plus">EN SAVOIR PLUS</p>
+          <p class="text-4xl mb-3">
+            {{ open_day.date | date("dd/LL/yyyy") }},
+            <br>
+            de 10h à 18h
+          </p>
+          <p class="en-savoir-plus">EN SAVOIR PLUS</p>
         </section>
-    </a>
+      </a>
     {% endif %}
-</section>
+  </section>
+
+  {# =========================
+     PAGINATION (articles home)
+     - Mobile: select déroulant (interactif)
+     - Desktop: boutons
+     ========================= #}
+  {% if total_pages > 1 %}
+
+    {# ✅ MOBILE: liste déroulante #}
+    <div class="mt-10 flex flex-col items-center gap-2 sm:hidden">
+      <label for="select-page-home" class="text-sm text-slate-600">
+        Aller à la page :
+      </label>
+
+      <select
+        id="select-page-home"
+        class="w-full max-w-xs rounded-lg border border-slate-300 bg-white px-3 py-2"
+        data-paginator="home"
+      >
+        {% for p in range(1, total_pages + 1) %}
+          <option value="{{ p }}" {{ "selected" if p == page else "" }}>
+            Page {{ p }}
+          </option>
+        {% endfor %}
+      </select>
+    </div>
+
+    {# ✅ DESKTOP/TABLETTE: boutons #}
+    <nav class="mt-10 hidden sm:flex items-center justify-center gap-2" aria-label="Pagination">
+
+      {# Précédent #}
+      {% if page > 1 %}
+        <a
+          href="/?page={{ page - 1 }}"
+          class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50"
+        >
+          ← Précédent
+        </a>
+      {% else %}
+        <span class="px-4 py-2 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed">
+          ← Précédent
+        </span>
+      {% endif %}
+
+      {# Numéros #}
+      {% for p in range(1, total_pages + 1) %}
+        {% if p == page %}
+          <span class="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold">
+            {{ p }}
+          </span>
+        {% else %}
+          <a
+            href="/?page={{ p }}"
+            class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50"
+          >
+            {{ p }}
+          </a>
+        {% endif %}
+      {% endfor %}
+
+      {# Suivant #}
+      {% if page < total_pages %}
+        <a
+          href="/?page={{ page + 1 }}"
+          class="px-4 py-2 rounded-lg border border-slate-300 bg-white hover:bg-slate-50"
+        >
+          Suivant →
+        </a>
+      {% else %}
+        <span class="px-4 py-2 rounded-lg border border-slate-200 bg-slate-100 text-slate-400 cursor-not-allowed">
+          Suivant →
+        </span>
+      {% endif %}
+    </nav>
+
+    {# ✅ JS POUR QUE LE SELECT MOBILE MARCHE #}
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const select = document.querySelector('select[data-paginator="home"]');
+        if (!select) return;
+
+        select.addEventListener("change", () => {
+          const url = new URL(window.location.href);
+          url.searchParams.set("page", select.value);
+          window.location.href = url.toString();
+        });
+      });
+    </script>
+
+  {% endif %}
 {% endblock %}

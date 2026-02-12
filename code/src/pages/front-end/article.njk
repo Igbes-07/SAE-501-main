@@ -1,66 +1,254 @@
-{% extends "layouts/front-end/base.njk" %}
-
-{% extends "layouts/front-end/base.njk" %}
+{% extends "layouts/front-end/base.njk" %} 
+{% set bubble_color = "violet" %}
 
 {% block main %}
-  <article class="max-w-3xl mx-auto my-8">
-    <div class="bg-white rounded-2xl shadow-md overflow-hidden">
+  <article class="max-w-3xl mx-auto my-10 px-4 sm:px-0">
 
-      {# Image de l'article #}
+    {# Image de l'article #}
+    <figure class="mb-6">
       <img
-        class="w-full h-[300px] object-cover"
+        class="w-full h-[340px] sm:h-[420px] object-cover"
         src="{{ '/images/image-placeholder-article.png'
                 if (not article.image or article.image|length == 0)
                 else '/uploads/' ~ article.image }}"
         alt="{{ article.title }}"
       >
+      {% if article.photo_credit %}
+        <figcaption class="mt-2 text-xs text-gray-500 text-center">
+          Crédit photo : {{ article.photo_credit }}
+        </figcaption>
+      {% endif %}
+    </figure>
 
-      <div class="p-6 flex flex-col gap-4">
-        {# Titre #}
-        <h1 class="text-3xl font-bold">
-          {{ article.title }}
-        </h1>
+    {# Header #}
+    <header class="pb-6 border-b border-gray-200">
+      <h1 class="text-3xl sm:text-4xl font-extrabold leading-tight text-gray-900">
+        {{ article.title }}
+      </h1>
 
-        {# Auteur #}
-        <p class="italic text-gray-600 text-sm">
+      <div class="mt-4 flex flex-wrap items-center gap-3 text-sm text-gray-600">
+        <span class="italic">
           {% if article.author %}
             Par
-            <a href="/auteurs/{{ article.author._id }}" class="text-blue-700 hover:underline">
+            <a href="/author/{{ article.author._id }}"
+              class="not-italic font-semibold text-gray-900 hocus:underline underline-offset-4
+                      focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-600 focus-visible:ring-offset-2 rounded-sm">
               {{ article.author.firstname }} {{ article.author.lastname }}
             </a>
+
           {% else %}
             La rédaction
           {% endif %}
-        </p>
+        </span>
 
-        {# 🟢 CHAPO (abstract) — texte court #}
-        {% if article.abstract %}
-          <p class="text-lg font-medium text-gray-800">
-            {{ article.abstract }}
-          </p>
+        {% if article.createdAt %}
+          <span class="text-gray-300">•</span>
+          <time datetime="{{ article.createdAt }}">{{ article.createdAt }}</time>
         {% endif %}
-
-        {# 🔹 Vidéo YouTube (si présente) #}
-        {% if article.yt_video_id %}
-          <section class="mt-4 aspect-video">
-            <iframe
-              class="w-full h-full rounded-lg"
-              src="https://www.youtube.com/embed/{{ article.yt_video_id }}"
-              title="Vidéo associée à l'article"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-              referrerpolicy="strict-origin"
-            ></iframe>
-          </section>
-        {% endif %}
-
-        {# 🟣 CONTENU COMPLET #}
-        <div class="prose max-w-none mt-4">
-          {{ article.content | safe }}
-        </div>
       </div>
+
+      {% if article.abstract %}
+        <p class="mt-5 text-lg sm:text-xl leading-relaxed text-gray-800">
+          {{ article.abstract }}
+        </p>
+      {% endif %}
+    </header>
+
+    {# Vidéo YouTube #}
+    {% if article.yt_video_id %}
+      <section class="mt-8">
+        <div class="aspect-video">
+          <iframe
+            class="w-full h-full"
+            src="https://www.youtube.com/embed/{{ article.yt_video_id }}"
+            title="Vidéo associée à l'article"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowfullscreen
+            referrerpolicy="strict-origin"
+          ></iframe>
+        </div>
+      </section>
+    {% endif %}
+
+    <div class="mt-8 text-base sm:text-lg leading-relaxed text-gray-900 [&_p]:mb-4">
+      {{ article.content | safe }}
     </div>
+
+    {# ==========================
+       COMMENTAIRES (async)
+       ========================== #}
+    <section class="bg-gray-100 rounded-lg shadow-md p-6 mb-8">
+      <h2 class="text-2xl font-bold mb-6">Commentaires</h2>
+
+      <form id="comment-form" class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-6">
+        <input type="hidden" id="article-id" value="{{ article._id }}">
+
+        <div class="mb-6">
+          <label class="block text-gray-700 font-bold mb-2" for="content">
+            Commentaire
+          </label>
+          <textarea
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            id="content"
+            rows="4"
+            placeholder="Votre commentaire"
+            required
+          ></textarea>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button
+            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            type="submit"
+          >
+            Publier
+          </button>
+          <p id="comment-status" class="hidden"></p>
+        </div>
+      </form>
+
+      <div id="comments-container" class="space-y-4">
+        {% if comments and comments.list_comments and comments.list_comments.length > 0 %}
+          {% for comment in comments.list_comments %}
+            <div class="bg-white rounded-lg shadow p-4">
+              <div class="flex justify-between items-start mb-2">
+                <div class="font-bold">Anonyme</div>
+                <time class="text-sm text-gray-500" datetime="{{ comment.created_at }}">
+                  {{ comment.created_at|date("dd/LL/yyyy") }}
+                </time>
+              </div>
+              <p>{{ comment.content }}</p>
+            </div>
+          {% endfor %}
+        {% else %}
+          <p id="no-comments-message" class="text-gray-500">Aucun commentaire pour le moment.</p>
+        {% endif %}
+      </div>
+    </section>
+
+    <template id="comment-template">
+      <div class="bg-white rounded-lg shadow p-4">
+        <div class="flex justify-between items-start mb-2">
+          <div class="font-bold">Anonyme</div>
+          <time class="text-sm text-gray-500" data-comment-date></time>
+        </div>
+        <p data-comment-content></p>
+      </div>
+    </template>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const form = document.getElementById("comment-form");
+        const commentsContainer = document.getElementById("comments-container");
+        const template = document.getElementById("comment-template");
+        const status = document.getElementById("comment-status");
+        const noMsg = document.getElementById("no-comments-message");
+        const articleRef = document.getElementById("article-id")?.value;
+
+        if (!form || !commentsContainer || !template || !articleRef) return;
+
+        const API_BASE = `/api/articles/${encodeURIComponent(articleRef)}/comments`;
+
+        function show(msg, type = "info") {
+          if (!status) return;
+          status.textContent = msg;
+          status.classList.remove("hidden", "text-red-500", "text-green-500", "text-gray-500");
+          status.classList.add(
+            type === "error" ? "text-red-500" :
+            type === "success" ? "text-green-500" :
+            "text-gray-500"
+          );
+          status.classList.remove("hidden");
+        }
+
+        function clearList() {
+          commentsContainer.innerHTML = "";
+        }
+
+        function renderComment(comment) {
+          const node = document.importNode(template.content, true);
+          const contentEl = node.querySelector("[data-comment-content]");
+          const dateEl = node.querySelector("[data-comment-date]");
+
+          if (contentEl) contentEl.textContent = comment.content || "";
+
+          const iso = comment.created_at || new Date().toISOString();
+          if (dateEl) {
+            dateEl.textContent = new Date(iso).toLocaleDateString("fr-FR");
+            dateEl.setAttribute("datetime", iso);
+          }
+
+          commentsContainer.prepend(node);
+        }
+
+        async function loadComments() {
+          const res = await fetch(`${API_BASE}?page=1`, { headers: { "Accept": "application/json" } });
+          const data = await res.json().catch(() => null);
+
+          if (!res.ok) {
+            const msg = (data?.errors && data.errors[0]) || "Impossible de charger les commentaires";
+            throw new Error(msg);
+          }
+
+          const list = data?.list_comments || [];
+          clearList();
+
+          if (list.length === 0) {
+            if (noMsg) noMsg.style.display = "block";
+            return;
+          }
+
+          if (noMsg) noMsg.style.display = "none";
+          list.forEach(renderComment);
+        }
+
+        async function createComment(content) {
+          const res = await fetch(API_BASE, {
+            method: "POST",
+            headers: { "Content-Type": "application/json", "Accept": "application/json" },
+            body: JSON.stringify({ content }),
+          });
+
+          const data = await res.json().catch(() => null);
+
+          if (!res.ok) {
+            const msg = (data?.errors && data.errors[0]) || "Impossible d'ajouter le commentaire";
+            throw new Error(msg);
+          }
+
+          return data; // getClean()
+        }
+
+        // Charger au démarrage (async)
+        loadComments().catch(err => show(err.message, "error"));
+
+        // Ajouter (async)
+        form.addEventListener("submit", async (e) => {
+          e.preventDefault();
+
+          const content = document.getElementById("content")?.value.trim();
+          if (!content) {
+            show("Le commentaire ne peut pas être vide", "error");
+            return;
+          }
+
+          try {
+            show("Envoi en cours...", "info");
+            const created = await createComment(content);
+
+            if (noMsg) noMsg.style.display = "none";
+            renderComment(created);
+
+            form.reset();
+            show("Commentaire ajouté ✅", "success");
+            setTimeout(() => status.classList.add("hidden"), 2000);
+          } catch (err) {
+            show(err.message, "error");
+          }
+        });
+      });
+    </script>
+
   </article>
 {% endblock %}
-

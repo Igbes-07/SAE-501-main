@@ -1,9 +1,6 @@
 {% extends "layouts/back-end/base.njk" %}
 
 {% set active_menu_item = "authors" %}
-{% set using_asc = query_string_params.sorting == "asc" %}
-{% set sort_param = "desc" if using_asc == true else "asc" %}
-{% set sort_text = "Trier du plus récent au plus ancien" if using_asc == true else "Trier du plus ancien au plus récent" %}
 
 {% import "components/back-end/pagination.njk" as pagination with context %}
 {% import "components/back-end/list-actions.njk" as list_actions %}
@@ -13,31 +10,19 @@
     <header class="mb-1 p-6 gap-2 @3xl/main:gap-0 flex justify-between @3xl/main:flex-row flex-col">
       <div>
         {% include "components/back-end/breadcrumb.njk" %}
-        <h2 class="text-4xl">
-          Liste auteurs
-        </h2>
+        <h2 class="text-4xl">Liste auteurs</h2>
         <p class="text-sm">{{ list_authors.count }} éléments au total</p>
       </div>
 
       <div class="flex gap-3 flex-col @xl:flex-row">
-        <a href="{{ admin_url ~ "/auteurs/add" }}" class="inline-flex gap-1 w-full sm:w-fit text-md text-white rounded-2xl items-center text-sm py-2 px-4 bg-blue-700 hocus:bg-blue-950 h-fit justify-center">
+        <a
+          href="{{ admin_url ~ "/auteurs/add" }}"
+          class="inline-flex gap-1 w-full sm:w-fit text-md text-white rounded-2xl items-center text-sm py-2 px-4 bg-blue-700 hocus:bg-blue-950 h-fit justify-center"
+        >
           <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>
           Ajouter un nouvel auteur
-        </a>
-
-        <a href="{{ '?sorting=' ~ sort_param }}" class="w-full flex gap-1 justify-center @3xl/main:hidden sm:w-fit text-md bg-neutral-100 hocus:bg-neutral-200 text-black rounded-2xl items-center text-sm py-2 px-4 h-fit text-center">
-          {% if using_asc %}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
-            </svg>
-          {% else %}
-            <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
-            </svg>
-          {% endif %}
-          {{ sort_text }}
         </a>
       </div>
     </header>
@@ -48,10 +33,6 @@
           {{ item | safe }}
         </p>
       {% endfor %}
-    </div>
-
-    <div class="tooltip hidden bg-slate-800 text-white border border-gray-200 border-solid py-2 px-4 rounded-2xl" data-tooltip="sort">
-      <p class="text-sm">{{ sort_text }}</p>
     </div>
 
     <table class="w-full bg-white border-collapse">
@@ -69,55 +50,58 @@
           <th class="font-bold px-6 py-3 text-left border-solid border-slate-200 border-b">
             Nombre d’articles
           </th>
-          <th class="font-bold text-left border-solid border-slate-200 border-b hover:bg-blue-50">
-            <a href="{{ '?sorting=' ~ sort_param }}" class="flex gap-2 px-6 py-3 items-center" aria-sort="{{ 'ascending' if using_asc else 'descending' }}" title="{{ sort_text }}" data-tooltip-anchor="sort">
-              <span>Dernière mise à jour</span>
-              <div class="shrink-0">
-                {% if using_asc %}
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h5.25m5.25-.75L17.25 9m0 0L21 12.75M17.25 9v12" />
-                  </svg>
-                {% else %}
-                  <svg aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 4.5h14.25M3 9h9.75M3 13.5h9.75m4.5-4.5v12m0 0-3.75-3.75M17.25 21 21 17.25" />
-                  </svg>
-                {% endif %}
-              </div>
-            </a>
-          </th>
           <th class="px-6 py-3 border-solid border-slate-200 border-b"></th>
         </tr>
       </thead>
 
       <tbody>
         {% for item in list_authors.data %}
+          {% set authorColor = item.color or "#ff0000" %}
+
           <tr class="hover:bg-neutral-50 even:bg-blue-50">
-            {# Auteur + image + couleur #}
+            {# Auteur + image + couleur (design amélioré) #}
             <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6 min-w-52" data-label="Auteur">
               <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full overflow-hidden bg-neutral-200 shrink-0">
-                  {% if item.image %}
-                    <img
-                      src="/uploads/{{ item.image }}"
-                      alt="Photo de {{ item.firstname }} {{ item.lastname }}"
-                      class="w-full h-full object-cover"
-                    >
-                  {% else %}
-                    <span class="sr-only">Pas de photo</span>
-                  {% endif %}
+                {# Avatar + halo coloré #}
+                <div class="relative shrink-0">
+                  <div
+                    class="w-11 h-11 rounded-full overflow-hidden bg-neutral-200 border border-white shadow-sm"
+                    style="box-shadow: 0 0 0 4px {{ authorColor }}22;"
+                  >
+                    {% if item.image %}
+                      <img
+                        src="/uploads/{{ item.image }}"
+                        alt="Photo de {{ item.firstname }} {{ item.lastname }}"
+                        class="w-full h-full object-cover"
+                      >
+                    {% else %}
+                      <span class="sr-only">Pas de photo</span>
+                    {% endif %}
+                  </div>
+
+                  {# petit point couleur en bas à droite #}
+                  <span
+                    class="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 rounded-full border-2 border-white"
+                    style="background-color: {{ authorColor }};"
+                    aria-hidden="true"
+                    title="{{ authorColor }}"
+                  ></span>
                 </div>
-                <div>
-                  <p class="font-semibold">
+
+                <div class="min-w-0">
+                  <p class="font-semibold leading-tight truncate">
                     {{ item.firstname }} {{ item.lastname }}
                   </p>
-                  <p class="text-xs text-slate-500 flex items-center gap-2 mt-1">
-                    <span
-                      class="inline-block w-3 h-3 rounded-full border border-slate-300"
-                      style="background-color: {{ item.color }};"
-                      aria-hidden="true"
-                    ></span>
-                    <span>{{ item.color }}</span>
-                  </p>
+
+                  {# badge couleur (chip) #}
+                  <div
+                    class="mt-1 inline-flex items-center gap-2 rounded-full px-2.5 py-1 text-xs border"
+                    style="background-color: {{ authorColor }}14; border-color: {{ authorColor }}33;"
+                  >
+                    <span class="inline-block w-2 h-2 rounded-full" style="background-color: {{ authorColor }};"></span>
+                    <span class="text-slate-700 font-medium">Couleur</span>
+                    <span class="text-slate-500 font-mono">{{ authorColor }}</span>
+                  </div>
                 </div>
               </div>
             </td>
@@ -131,17 +115,16 @@
 
             {# Bio #}
             <td class="py-4 px-6 bg-transparent border-solid border-slate-200 border-b shadow-transparent" data-label="Bio / description">
-              <p class="line-clamp-2 md:line-clamp-1" title="{{ item.bio }}">{{ item.bio }}</p>
+              {% if item.bio %}
+                <p class="line-clamp-2 md:line-clamp-1" title="{{ item.bio }}">{{ item.bio }}</p>
+              {% else %}
+                <span class="text-slate-500">—</span>
+              {% endif %}
             </td>
 
             {# Nombre d’articles #}
             <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Nombre d’articles">
               {{ item.nb_articles or 0 }}
-            </td>
-
-            {# Dernière mise à jour #}
-            <td class="bg-transparent border-solid border-slate-200 border-b py-4 px-6" data-label="Dernière mise à jour">
-              <time datetime="{{ item.updated_at }}">{{ item.updated_at | date("dd/LL/yyyy à HH:mm") }}</time>
             </td>
 
             {# Actions #}

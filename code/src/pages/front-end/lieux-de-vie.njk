@@ -1,27 +1,25 @@
 {% extends "layouts/front-end/base.njk" %}
 
+{% set bubble_color = "bleu" %}
 {% block title %}Lieux de vie – BUT MMI{% endblock %}
 
 {% block main %}
 
-  <main class="max-w-6xl mx-auto py-12 space-y-8">
-    <h1 class="text-3xl font-bold">Lieux de vie</h1>
-    <p>Bienvenue sur la page des lieux de vie.</p>
+<main class="max-w-6xl mx-auto py-12 space-y-8">
+  <h1 class="text-3xl font-bold">Lieux de vie</h1>
 
-{% if context.lieux_de_vie_video %}
-<iframe
-    class="w-full aspect-video"
-    src="https://www.youtube.com/embed/{{ context.lieux_de_vie_video | youtubeId }}"
-    frameborder="0"
-    allowfullscreen>
-</iframe>
-{% endif %}
+  {# Image “hero” optionnelle #}
+  {% if context.lieux_de_vie_image %}
+    <img
+      class="w-full aspect-video object-cover rounded-md"
+      src="{{ context.lieux_de_vie_image }}"
+      alt="Lieux de vie"
+    >
+  {% endif %}
 
-  
- {# ---------------- INTRO + BIBLIOTHÈQUE (vidéo à gauche, texte à droite) ---------------- #}
+  {# ---------------- INTRO + BIBLIOTHÈQUE ---------------- #}
   <section class="space-y-8">
     <header class="space-y-2">
-      <h2 class="text-2xl font-semibold">Lieux de vie</h2>
       <p class="text-sm md:text-base text-slate-700 max-w-3xl">
         Entre les cours, l'université et ses IUT proposent de nombreux lieux de convivialité
         ou d’idéation. Divers et variés, ils permettent aux étudiants, de toute formation,
@@ -30,23 +28,19 @@
     </header>
 
     <div class="grid gap-8 md:grid-cols-2 items-start">
-      {# CASE BLEUE = vidéo 1 : Bibliothèque universitaire #}
       <div class="w-full">
         <div class="w-full bg-blue-600 rounded-md overflow-hidden">
-          <div class="relative pt-[56.25%]">
-            <iframe
-              class="absolute inset-0 w-full h-full"
-              src="https://www.youtube.com/embed/oiEbQF7qfBU"
-              title="Bibliothèque universitaire"
-              frameborder="0"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-              allowfullscreen
-            ></iframe>
+          <div class="aspect-video">
+            <img
+              class="w-full h-full object-cover"
+              src="{{ context.lieux_bibliotheque_image or '/images/bibliotheque.jpg' }}"
+              alt="Bibliothèque universitaire"
+              loading="lazy"
+            >
           </div>
         </div>
       </div>
 
-      {# Texte Bibliothèque #}
       <div class="space-y-2">
         <h3 class="text-xl md:text-2xl font-semibold">Bibliothèque universitaire</h3>
         <p class="text-sm md:text-base text-slate-700">
@@ -58,9 +52,8 @@
     </div>
   </section>
 
-  {# ---------------- SE RESTAURER (texte à gauche, vidéo à droite) ---------------- #}
+  {# ---------------- SE RESTAURER ---------------- #}
   <section class="grid gap-8 md:grid-cols-2 items-start">
-    {# Texte #}
     <div class="space-y-2">
       <h3 class="text-xl md:text-2xl font-semibold">Se restaurer</h3>
       <p class="text-sm md:text-base text-slate-700">
@@ -74,42 +67,35 @@
       </p>
     </div>
 
-    {# CASE BLEUE = vidéo 2 #}
     <div class="w-full">
       <div class="w-full bg-blue-600 rounded-md overflow-hidden">
-        <div class="relative pt-[56.25%]">
-          <iframe
-            class="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/SyjF4h2Zb7Q"
-            title="Se restaurer - CROUS"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+        <div class="aspect-video">
+          <img
+            class="w-full h-full object-cover"
+            src="{{ context.lieux_restauration_image or '/images/restauration.jpg' }}"
+            alt="Se restaurer"
+            loading="lazy"
+          >
         </div>
       </div>
     </div>
   </section>
 
-  {# ---------------- FABLABS (vidéo à gauche, texte à droite) ---------------- #}
+  {# ---------------- FABLABS ---------------- #}
   <section class="grid gap-8 md:grid-cols-2 items-start">
-    {# CASE BLEUE = vidéo 3 #}
     <div class="w-full">
       <div class="w-full bg-blue-600 rounded-md overflow-hidden">
-        <div class="relative pt-[56.25%]">
-          <iframe
-            class="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/t72pdxpNjyc"
-            title="Fablabs CY Cergy Paris Université"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+        <div class="aspect-video">
+          <img
+            class="w-full h-full object-cover"
+            src="{{ context.lieux_fablab_image or '/images/faclab.jpg' }}"
+            alt="Fablabs CY Cergy Paris Université"
+            loading="lazy"
+          >
         </div>
       </div>
     </div>
 
-    {# Texte Fablabs #}
     <div class="space-y-2">
       <h3 class="text-xl md:text-2xl font-semibold">
         Réseau des fablabs de CY Cergy Paris Université
@@ -125,29 +111,25 @@
     </div>
   </section>
 
-  {# ---------------- 4ᵉ VIDÉO (tu peux adapter le texte selon la maquette) ---------------- #}
+  {# ---------------- AUTRES LIEUX ---------------- #}
   <section class="grid gap-8 md:grid-cols-2 items-start">
-    {# Texte générique pour le 4e lieu (à adapter) #}
     <div class="space-y-2">
       <h3 class="text-xl md:text-2xl font-semibold">Autres lieux de vie</h3>
       <p class="text-sm md:text-base text-slate-700">
-        Cette vidéo présente d'autres espaces que vous pourrez découvrir pendant votre BUT :
+        Cette section présente d'autres espaces que vous pourrez découvrir pendant votre BUT :
         lieux associatifs, espaces de détente, ou encore événements étudiants sur le campus.
       </p>
     </div>
 
-    {# CASE BLEUE = vidéo 4 #}
     <div class="w-full">
       <div class="w-full bg-blue-600 rounded-md overflow-hidden">
-        <div class="relative pt-[56.25%]">
-          <iframe
-            class="absolute inset-0 w-full h-full"
-            src="https://www.youtube.com/embed/xD4wshE0hEg"
-            title="Autres lieux de vie"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen
-          ></iframe>
+        <div class="aspect-video">
+          <img
+            class="w-full h-full object-cover"
+            src="{{ context.lieux_autres_image or '/images/association.jpg' }}"
+            alt="Autres lieux de vie"
+            loading="lazy"
+          >
         </div>
       </div>
     </div>

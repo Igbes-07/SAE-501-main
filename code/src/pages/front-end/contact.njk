@@ -1,32 +1,90 @@
 {% extends "layouts/front-end/base.njk" %}
 
-{% block title %}Contact – BUT MMi{% endblock %}
+{% set bubble_color = "orange" %}
+{% set current_page = "/nous-contacter" %}
+
+{% block title %}Contact{% endblock %}
 
 {% block main %}
-  <main class="max-w-3xl mx-auto py-12 space-y-6">
-    <h1 class="text-3xl font-bold mb-4">Contact</h1>
+<h2 class="text-3xl font-bold mb-1 text-center md:text-left">Plus d’infos sur la formation ?</h2>
+<h2 class="text-3xl font-bold mb-6 text-center md:text-left">Contactez-nous !</h2>
 
-    <form id="contact-form" class="space-y-4">
-      <div>
-        <label for="name" class="block text-sm font-medium">Nom</label>
-        <input id="name" name="name" type="text" class="w-full border rounded p-2" required>
+<p class="mb-8 w-full md:w-5/6 mx-auto md:mx-0">
+  <strong>La formation s’ouvre à tous les bacheliers</strong>, pour rappel. Avoir des connaissances en programmation, design ou audiovisuel n’est pas obligatoire mais reste un bon atout, car il faut aimer la curiosité dans cette formation pluridisciplinaire.
+  <strong>Il est également possible de faire la formation après une reprise d’études ou une réorientation.</strong>
+</p>
+
+<h2 class="text-3xl font-bold mb-4 text-center md:text-left">Nous contacter en ligne</h2>
+
+<div class="max-w-3xl mx-auto md:mx-0">
+
+  {# Feedback pour l'envoi async (OBLIGATOIRE pour ton main.frontend.js) #}
+  <p id="contact-feedback" class="mb-4 text-sm"></p>
+
+<form action="/api/messages" method="post" data-async-form class="mb-8">
+  <div class="mb-6">
+    <label class="font-bold block text-left" for="firstName">Prénom</label>
+    <input type="text" id="firstName" name="firstName" class="w-full border border-gray-300 rounded px-2 py-3">
+    <p class="hidden text-red-500" data-error-message="firstName">Prénom requis</p>
+  </div>
+
+  <div class="mb-4">
+    <label class="font-bold block text-left" for="lastName">Nom</label>
+    <input type="text" id="lastName" name="lastName" class="w-full border border-gray-300 rounded px-2 py-3">
+    <p class="hidden text-red-500" data-error-message="lastName">Nom requis</p>
+  </div>
+
+  <div class="mb-4">
+    <label class="font-bold block text-left" for="email">Adresse e-mail</label>
+    <input type="email" id="email" name="email" class="w-full border border-gray-300 rounded px-2 py-3">
+    <p class="hidden text-red-500" data-error-message="email">Adresse e-mail invalide</p>
+  </div>
+
+  <div class="mb-4">
+    <label class="font-bold block text-left" for="message">Message</label>
+    <textarea id="message" name="message" rows="5" class="w-full border border-gray-300 rounded px-2 py-3"></textarea>
+    <p class="hidden text-red-500" data-error-message="message">Message requis</p>
+  </div>
+
+  <div class="mb-6">
+    <label class="font-bold block mb-2 text-left">Je suis</label>
+    <div class="flex flex-wrap items-center gap-4">
+      <div class="flex items-center gap-2">
+        <input type="radio" id="non_precise" name="je_suis" value="non_precise">
+        <label for="non_precise">Je ne souhaite pas le préciser</label>
       </div>
-
-      <div>
-        <label for="email" class="block text-sm font-medium">Email</label>
-        <input id="email" name="email" type="email" class="w-full border rounded p-2" required>
+      <div class="flex items-center gap-2">
+        <input type="radio" id="etudiant" name="je_suis" value="etudiant">
+        <label for="etudiant">Étudiant/Étudiante</label>
       </div>
-
-      <div>
-        <label for="message" class="block text-sm font-medium">Message</label>
-        <textarea id="message" name="message" rows="4" class="w-full border rounded p-2" required></textarea>
+      <div class="flex items-center gap-2">
+        <input type="radio" id="parent" name="je_suis" value="parent">
+        <label for="parent">Parent</label>
       </div>
+      <div class="flex items-center gap-2">
+        <input type="radio" id="autre" name="je_suis" value="autre">
+        <label for="autre">Autre</label>
+      </div>
+    </div>
+    <p class="hidden text-red-500" data-error-message="je_suis">Statut requis</p>
+  </div>
 
-      <p id="contact-feedback" class="text-sm"></p>
+  <button type="submit" class="font-bold text-white py-3 px-4 w-full rounded bg-blue-600 hover:bg-blue-700">
+    ENVOYER
+  </button>
 
-      <button type="submit" class="px-4 py-2 rounded bg-blue-600 text-white">
-        Envoyeé
-      </button>
-    </form>
-  </main>
+  <p class="mt-3 text-sm hidden" data-form-feedback></p>
+</form>
+
+
+  <div class="mt-20 text-center md:text-left">
+    <h2 class="text-3xl font-bold mb-4">Nous contacter par courrier</h2>
+    <ul class="text-lg">
+      <li>IUT de Cergy-Pontoise,</li>
+      <li>Département Métiers du Multimédia et de l’Internet (MMI)</li>
+      <li>34 Bis Boulevard Henri Bergson</li>
+      <li>95200 Sarcelles</li>
+    </ul>
+  </div>
+</div>
 {% endblock %}
