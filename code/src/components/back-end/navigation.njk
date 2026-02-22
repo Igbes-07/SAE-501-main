@@ -68,7 +68,7 @@ bg-clip-text text-transparent
                         {{ 'bg-yellow-100' if loop.last and NODE_ENV == "development" else "" }}
                         {# ON GARDE bg-blue-50 ET font-bold : le JS s'en servira de repère #}
                         {{ 'bg-blue-50 font-bold active-link' if (active_menu_item == item.key) else "" }}
-                        px-4 py-3 rounded-lg flex items-center my-1 mx-2 text-base hocus:bg-blue-100 whitespace-nowrap
+                        px-4 py-3 rounded-lg flex items-center my-1 mx-2 text-base hocus:bg-gray-100 whitespace-nowrap
                         md:justify-start
                         justify-center
                     "
