@@ -59,7 +59,7 @@ const THEMES = {
     "orange-600": { bg: "bg-orange-100", text: "text-orange-900", gradient: "from-orange-300", meta: "#fdba74", btn: "bg-orange-600" },
     "orange": { bg: "bg-orange-50", text: "text-orange-700", gradient: "from-orange-200", meta: "#fed7aa", btn: "bg-orange-600" },
     "amber": { bg: "bg-amber-50", text: "text-amber-800", gradient: "from-amber-200", meta: "#fde68a", btn: "bg-amber-600" },
-    "yellow": { bg: "bg-yellow-50", text: "text-yellow-800", gradient: "from-yellow-200", meta: "#fef9c3", btn: "bg-yellow-500" }
+    "yellow": { bg: "bg-yellow-50", text: "text-yellow-800", gradient: "from-yellow-200", meta: "#fef9c3", btn: "bg-yellow-500" },
 };
 
 function applyTheme(theme) {
@@ -83,7 +83,7 @@ function applyTheme(theme) {
 
     // 3. MENU LATÉRAL
     menuLinks.forEach(link => {
-        const isActive = link.classList.contains("font-bold") || link.classList.contains("bg-blue-50");
+        const isActive = link.classList.contains("active-link");
         Object.values(THEMES).forEach(th => link.classList.remove(th.bg, th.text));
         if (isActive) link.classList.add(t.bg, t.text);
     });
@@ -94,6 +94,11 @@ function applyTheme(theme) {
         btn.style.transform = isActive ? "scale(1.3)" : "scale(1)";
         btn.style.outline = isActive ? "2px solid white" : "none";
     });
+
+    // 5. META THEME COLOR
+    if (metaTheme) {
+        metaTheme.setAttribute("content", t.meta);
+    };
 
     localStorage.setItem(THEME_KEY, theme);
 }

@@ -8,12 +8,12 @@ const setFeedback = (el, message, variant) => {
     if (!el) return;
 
     el.textContent = message;
-    el.className
-        = "mt-3 text-sm "
+    el.className 
+        = "mt-3 text-sm px-4 py-2 rounded-lg font-medium " 
             + (
                 variant === "success"
-                    ? "text-green-600"
-                    : "text-red-600"
+                    ? "bg-green-100 text-green-800 border border-green-300"
+                    : "bg-red-100 text-red-800 border border-red-300"
             );
     el.classList.remove("hidden");
 };
