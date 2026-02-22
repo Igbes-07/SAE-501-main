@@ -50,3 +50,22 @@ if (contactForm) {
         }
     });
 }
+// Fonction pour initialiser le burger
+const initBurgerMenu = () => {
+    const btn = document.getElementById("burger-btn");
+    const menu = document.getElementById("menu-front");
+
+    if (btn && menu) {
+        console.log("Menu burger détecté !"); // Pour vérifier dans la console (F12)
+        btn.addEventListener("click", () => {
+            menu.classList.toggle("hidden");
+            menu.classList.toggle("flex");
+        });
+    } else {
+        console.error("Bouton ou menu introuvable dans le DOM");
+    }
+};
+
+// On essaie de le lancer immédiatement ET au chargement complet
+initBurgerMenu();
+document.addEventListener("DOMContentLoaded", initBurgerMenu);
