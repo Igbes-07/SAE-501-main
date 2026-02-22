@@ -102,7 +102,14 @@ function applyTheme(theme) {
 
     localStorage.setItem(THEME_KEY, theme);
 }
+const burgerBtn = document.getElementById("burger-btn");
+const menu = document.getElementById("menu");
 
+if (burgerBtn && menu) {
+    burgerBtn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+    });
+}
 // Initialisation et Event Listeners
 const savedTheme = localStorage.getItem(THEME_KEY) || DEFAULT_THEME;
 applyTheme(savedTheme);
